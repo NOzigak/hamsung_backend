@@ -22,7 +22,9 @@ public class UserController {
     @PostMapping("/users")
     public ResponseEntity createUser(UserRequestDTO userdto) {
 
-        return userService.joinUser(userdto);
+        userService.joinUser(userdto);
+
+        return ResponseEntity.ok("User registered successfully");
     }
 
     @GetMapping("/users/{user_id}")

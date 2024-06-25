@@ -85,7 +85,6 @@ public class SecurityConfig {
         http
                 .httpBasic((auth) -> auth.disable());
 
-
         http
                 .authorizeHttpRequests((auth) -> auth
                         .requestMatchers("/login", "/", "/users").permitAll()

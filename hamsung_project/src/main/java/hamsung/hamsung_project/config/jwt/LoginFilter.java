@@ -46,7 +46,8 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
     }
 
     @Override
-    protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authentication) {
+    protected void successfulAuthentication(HttpServletRequest request
+            , HttpServletResponse response, FilterChain chain, Authentication authentication) {
 
         //유저 정보
         String username = authentication.getName();
@@ -54,7 +55,6 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
         //내가 커스텀한 UserDetails에서 user_id 꺼내오기
         CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
         Long userId = customUserDetails.getId();
-
 
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
         Iterator<? extends GrantedAuthority> iterator = authorities.iterator();
@@ -66,7 +66,7 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
         String refresh = jwtUtil.createJwt(userId,"refresh", username, role, 86400000L);
 
         //Refresh 토큰 저장
-        addRefreshEntity(userId,username, refresh, 86400000L);
+        addRefreshEntity(userId ,username, refresh, 86400000L);
 
         //응답 설정
         response.setHeader("access", access);

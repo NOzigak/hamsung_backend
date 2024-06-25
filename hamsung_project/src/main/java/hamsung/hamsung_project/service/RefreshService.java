@@ -27,7 +27,7 @@ public class RefreshService {
     public ResponseEntity<?> reissue(HttpServletRequest request, HttpServletResponse response) {
         //get refresh token
         String refresh = null;
-        Long user_id=null;
+        Long user_id = null;
         Cookie[] cookies = request.getCookies();
         for (Cookie cookie : cookies) {
             if (cookie.getName().equals("refresh")) {
@@ -35,12 +35,7 @@ public class RefreshService {
             }
         }
 
-        for (Cookie cookie : cookies) {
-            if (cookie.getName().equals("user_id")) {
-                user_id = Long.valueOf(cookie.getValue());
-            }
-        }
-
+        user_id = jwtUtil.getUserId(refresh);
         if (refresh == null || user_id ==null) {
             //response status code
             return new ResponseEntity<>("refresh token null", HttpStatus.BAD_REQUEST);
@@ -74,6 +69,7 @@ public class RefreshService {
 
         String username = jwtUtil.getUsername(refresh);
         String role = jwtUtil.getRole(refresh);
+        System.out.println(user_id);
 
         //make new JWT
         String newAccess = jwtUtil.createJwt(user_id,"access", username, role, 600000L);
@@ -81,7 +77,7 @@ public class RefreshService {
 
         //Refresh 토큰 저장 DB에 기존의 Refresh 토큰 삭제 후 새 Refresh 토큰 저장
         refreshRepository.deleteByRefresh(refresh);
-        addRefreshEntity(username, newRefresh, 86400000L);
+        addRefreshEntity(user_id,username, newRefresh, 86400000L);
 
         //response
         response.setHeader("access", newAccess);
@@ -90,11 +86,12 @@ public class RefreshService {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    private void addRefreshEntity(String username, String refresh, Long expiredMs) {
+    private void addRefreshEntity(Long user_id, String username, String refresh, Long expiredMs) {
 
         Date date = new Date(System.currentTimeMillis() + expiredMs);
 
         RefreshToken refreshEntity = new RefreshToken();
+        refreshEntity.setUser_id(user_id);
         refreshEntity.setUsername(username);
         refreshEntity.setRefresh(refresh);
         refreshEntity.setExpiration(date.toString());
