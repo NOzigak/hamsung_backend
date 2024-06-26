@@ -1,7 +1,9 @@
 package hamsung.hamsung_project.service;
 
 import hamsung.hamsung_project.dto.UserDTO;
+import hamsung.hamsung_project.entity.Review;
 import hamsung.hamsung_project.entity.User;
+import hamsung.hamsung_project.repository.ReviewRepository;
 import hamsung.hamsung_project.repository.UserRepository;
 import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
@@ -14,13 +16,15 @@ import java.util.Optional;
 @Service
 public class UserService {
 
+    private final ReviewRepository reviewRepository;
     private UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
 
-    public UserService(UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
+    public UserService(UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder, ReviewRepository reviewRepository) {
         this.userRepository = userRepository;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+        this.reviewRepository = reviewRepository;
     }
 
     public ResponseEntity joinUser(UserDTO userDTO){
@@ -46,6 +50,24 @@ public class UserService {
         data.setImaged_num(userDTO.getImage_num());
 
         userRepository.save(data);
+
+        Review review=new Review();
+        review.setNoLate(0L);
+        review.setFaithful(0L);
+        review.setKind(0L);
+        review.setUnkind(0L);
+        review.setFastAnswer(0L);
+        review.setSlowAnswer(0L);
+        review.setPassive(0L);
+        review.setAbsent(0L);
+
+        review.setUser(data);
+
+        reviewRepository.save(review);
+
+        data.setReview(review);
+        userRepository.save(data);
+
         return new ResponseEntity<>("User registered successfully", HttpStatus.CREATED);
     }
 

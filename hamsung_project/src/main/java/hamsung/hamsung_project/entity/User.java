@@ -1,5 +1,6 @@
 package hamsung.hamsung_project.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -28,6 +29,9 @@ public class User {
 
     private float point;
 
+    @OneToOne(mappedBy="user")
+    @JsonManagedReference //순환참조 방지 (부모쪽)
+    private Review review;
 
 
 }
