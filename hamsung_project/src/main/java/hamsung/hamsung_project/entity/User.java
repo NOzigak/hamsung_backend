@@ -1,5 +1,6 @@
 package hamsung.hamsung_project.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -34,6 +35,8 @@ public class User {
                 .imaged_num(imaged_num).role(role).badge(badge).point(point).build();
     }
 
-
+    @OneToOne(mappedBy="user")
+    @JsonManagedReference //순환참조 방지 (부모쪽)
+    private Review review;
 
 }
