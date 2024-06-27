@@ -5,11 +5,10 @@ import hamsung.hamsung_project.dto.CommentRequestDto;
 import hamsung.hamsung_project.entity.ChildComment;
 import hamsung.hamsung_project.entity.Comment;
 import hamsung.hamsung_project.entity.User;
+import hamsung.hamsung_project.exception.InvalidDataException;
 import hamsung.hamsung_project.repository.ChildCommentRepository;
 import hamsung.hamsung_project.repository.CommentRepository;
 import hamsung.hamsung_project.repository.UserRepository;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -19,9 +18,9 @@ import java.util.List;
 @Service
 public class CommentService {
 
-    private CommentRepository commentRepository;
-    private ChildCommentRepository childCommentRepository;
-    private UserRepository userRepository;
+    private final CommentRepository commentRepository;
+    private final ChildCommentRepository childCommentRepository;
+    private final UserRepository userRepository;
 //    private RecruitRepository recruitRepository;
 
     public CommentService(CommentRepository commentRepository, ChildCommentRepository childCommentRepository, UserRepository userRepository) {
@@ -32,54 +31,74 @@ public class CommentService {
     }
 
     // 댓글 생성
-    public ResponseEntity createComment(Long recruitsId, Long userId , CommentRequestDto commentDto) {
+    public Long createComment(Long recruitsId, Long userId , CommentRequestDto commentDto) {
+        // 유저 조회 실패시
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new InvalidDataException("Invalid UserId"));
 
-        User user = userRepository.findById(userId).get();
+        // 텍스트가 비어있으면
+        if(commentDto.getText().equals("")) {
+            throw new InvalidDataException("Invalid Text");
+        }
 
         Comment comment = commentDto.toEntity();
         comment.setUser(user);
         comment.setRecruitId(recruitsId); // 아직 미완
         commentRepository.save(comment);
-        return ResponseEntity.ok("create comment successfully");
+        return comment.getId();
     }
 
     // 대댓글 생성
-    public ResponseEntity createChildComment(Long parent_comment_id, ChildCommentRequestDto childCommentDto) {
+    public Long createChildComment(Long parent_comment_id, ChildCommentRequestDto childCommentDto) {
 
-        Comment comment = commentRepository.findById(parent_comment_id).get();
+        // 부모 댓글이 존재 하지 않는 경우 -> 예외
+        Comment comment = commentRepository.findById(parent_comment_id).
+                orElseThrow(() -> new InvalidDataException("Invalid Parent CommentId"));
+
+        // 유저가 존재하지 않는 경우 예외
         Long userId = childCommentDto.getUserId();
+        User user = userRepository.findById(userId).
+                orElseThrow(() -> new InvalidDataException("Invalid UserId"));
 
-        User user = userRepository.findById(userId).get();
-
+        // childComment 객체 초기화
         childCommentDto.setUserId(userId);
         childCommentDto.setUsername(user.getUsername());
         childCommentDto.setComment(comment);
 
         ChildComment childComment = childCommentDto.toEntity();
         childCommentRepository.save(childComment);
-        return ResponseEntity.ok("create child comment successfully");
+        return childComment.getId();
     }
 
     // 댓글 삭제
-    public ResponseEntity deleteComment(Long commentId, Long userId) {
-        Long commentUserId = commentRepository.findById(commentId).get().getUser().getId(); //
+    public void deleteComment(Long commentId, Long userId) {
+        // 댓글이 존재하지 않는 경우 -> 에외
+        Long commentUserId = commentRepository.findById(commentId)
+                .orElseThrow(() -> new InvalidDataException("Invalid commentId")).getUser().getId();
+
+        // 요청 UserId와 댓글 작성자 Id가 다른 경우
         if(!userId.equals(commentUserId)){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("invalid UserId");
+            throw new InvalidDataException("Invalid UserId");
         }
 
         commentRepository.deleteById(commentId);
-        return ResponseEntity.ok("delete comment successfully");
     }
 
     // 댓글 수정
-    public ResponseEntity updateComment(Long commentId, Long userId, String text) {
+    public Long updateComment(Long commentId, Long userId, String text) {
 
-        Comment comment = commentRepository.findById(commentId).get();
-        Long commentUserId = comment.getUser().getId(); //
-        // 수정자와 댓글 작성자가 다를 경우
-        if(!userId.equals(commentUserId)){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("invalid UserId");
-        }
+        // CommentId로 조회가 안되는 경우 예외
+        Comment comment = commentRepository.findById(commentId)
+                .orElseThrow(() -> new InvalidDataException("Invalid CommentId"));
+
+        // 수정자와 댓글 작성자가 다를 경우 예외
+        if(!userId.equals(comment.getUser().getId()))
+            throw new InvalidDataException("Invalid UserId");
+
+        // Text가 비어있는 경우
+        if (text.equals(""))
+            throw new InvalidDataException("Invalid Text");
+
 
         comment.setText(text);
         // 수정 시간 변경, 생성 시간 -> 그대로
@@ -87,30 +106,37 @@ public class CommentService {
                 .format(DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm")));
 
         commentRepository.save(comment);
-        return ResponseEntity.ok("update comment successfully");
+        return comment.getId();
     }
 
 
     // 대댓글 삭제
-    public ResponseEntity deleteChildComment(Long commentId, Long userId) {
+    public void deleteChildComment(Long commentId, Long userId) {
 
-        Long commentUserId = childCommentRepository.findById(commentId).get().getUserId(); //
-        if(!userId.equals(commentUserId)){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("invalid UserId");
-        }
+        // 대댓글 작성자 Id 추출하기 -> 대댓글 조회 안되면 예외
+        Long childCommentUserId = childCommentRepository.findById(commentId)
+                .orElseThrow(() -> new InvalidDataException("Invalid ChildCommentId")).getUserId();
+
+        // 삭제 요청 UserId와 대댓글 작성자 Id 비교 -> 다르면 예외
+        if(!userId.equals(childCommentUserId))
+            throw new InvalidDataException("Invalid UserId");
 
         childCommentRepository.deleteById(commentId);
-        return ResponseEntity.ok("delete comment successfully");
     }
 
     // 대댓글 수정
-    public ResponseEntity updateChildComment(Long childCommentId, Long userId, String text) {
+    public Long updateChildComment(Long childCommentId, Long userId, String text) {
+        ChildComment childComment = childCommentRepository.findById(childCommentId)
+                .orElseThrow(() -> new InvalidDataException("Invalid ChildCommentId"));
 
-        ChildComment childComment = childCommentRepository.findById(childCommentId).get();
         Long commentUserId = childComment.getUserId(); //
         // 수정자와 댓글 작성자가 다를 경우
         if(!userId.equals(commentUserId)){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("invalid UserId");
+            throw new InvalidDataException("Invalid UserId");
+        }
+
+        if (text.equals("")) {
+            throw new InvalidDataException("Invalid text");
         }
 
         childComment.setText(text);
@@ -119,11 +145,12 @@ public class CommentService {
                 .format(DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm")));
 
         childCommentRepository.save(childComment);
-        return ResponseEntity.ok("update comment successfully");
+        return childComment.getId();
     }
 
     public Comment findByCommentId(Long commentId) {
-        return commentRepository.findById(commentId).get();
+        return commentRepository.findById(commentId)
+                .orElseThrow(() -> new InvalidDataException("Invalid CommentId"));
     }
 
     /*

@@ -23,27 +23,29 @@ public class CommentController {
 
     //모집글에 댓글 생성
     @PostMapping("/recruits/{recruits-id}/comments")
-    public ResponseEntity createComment(@PathVariable(name = "recruits-id") Long recruitsId, Long userId, CommentRequestDto commentDto) {
-        return commentService.createComment(recruitsId, userId, commentDto);
+    public ResponseEntity<String> createComment(@PathVariable(name = "recruits-id") Long recruitsId, Long userId, CommentRequestDto commentDto) {
+        commentService.createComment(recruitsId, userId, commentDto);
+        return ResponseEntity.ok("create Comment successfully");
     }
 
     // 댓글 삭제
     @DeleteMapping("/comments/{comment-id}")
-    public ResponseEntity deleteComment(@PathVariable(name="comment-id") Long commentId, Long userId) {
-        return commentService.deleteComment(commentId, userId);
+    public ResponseEntity<String> deleteComment(@PathVariable(name="comment-id") Long commentId, Long userId) {
+        commentService.deleteComment(commentId, userId);
+        return ResponseEntity.ok("delete comment sucessfully");
     }
 
     // 댓글 수정
     @PutMapping("/comments/{comment-id}")
-    public ResponseEntity updateComment(@PathVariable(name="comment-id") Long commentId, Long userId, String text) {
-        return commentService.updateComment(commentId, userId, text);
+    public ResponseEntity<String> updateComment(@PathVariable(name="comment-id") Long commentId, Long userId, String text) {
+        commentService.updateComment(commentId, userId, text);
+        return ResponseEntity.ok("update comment successfully");
     }
 
     // 댓글 조회 (대댓글 까지 같이)
     @GetMapping("/comments/{comment-id}")
-    public ResponseEntity findComment(@PathVariable(name="comment-id") Long commentId) {
+    public ResponseEntity<CommentResponseDto> findComment(@PathVariable(name="comment-id") Long commentId) {
         Comment comments = commentService.findByCommentId(commentId);
-
         return ResponseEntity.ok(CommentResponseDto.of(comments));
     }
 
@@ -53,23 +55,27 @@ public class CommentController {
 
     // 대댓글 생성
     @PostMapping("/child-comments/{parent-comment-id}")
-    public ResponseEntity createChildComment(@PathVariable(name="parent-comment-id") Long parentCommentId,
-                                             Long userId, ChildCommentRequestDto childCommentDto) {
+    public ResponseEntity<String> createChildComment(@PathVariable(name="parent-comment-id") Long parentCommentId,
+                                             ChildCommentRequestDto childCommentDto) {
+        commentService.createChildComment(parentCommentId, childCommentDto);
+        return ResponseEntity.ok("create child comment successfully");
 
-        return commentService.createChildComment(parentCommentId, childCommentDto);
     }
 
     // 대댓글 삭제
     @DeleteMapping("child-comments/{child-comment-id}")
-    public ResponseEntity deleteChildComment(@PathVariable(name="child-comment-id") Long chlidCommentId, Long userId) {
+    public ResponseEntity<String> deleteChildComment(@PathVariable(name="child-comment-id") Long chlidCommentId, Long userId) {
 
-        return commentService.deleteChildComment(chlidCommentId, userId);
+        commentService.deleteChildComment(chlidCommentId, userId);
+        return ResponseEntity.ok("delete comment successfully");
     }
 
     // 대댓글 수정
     @PutMapping("/child-comments/{child-comment-id}")
-    public ResponseEntity updateChildComment(@PathVariable(name="child-comment-id") Long childCommentId, Long userId, String text) {
-        return commentService.updateChildComment(childCommentId, userId, text);
+    public ResponseEntity<String> updateChildComment(@PathVariable(name="child-comment-id") Long childCommentId, Long userId, String text) {
+        commentService.updateChildComment(childCommentId, userId, text);
+        return ResponseEntity.ok("update comment successfully");
+
     }
 
 
@@ -78,7 +84,7 @@ public class CommentController {
     * */
     // 임시 모집글 관련 모든 댓글, 대댓글 불러오는 컨트롤러
     @GetMapping("tmp/r/{recruit_id}")
-    public ResponseEntity showAllComment(@PathVariable Long recruit_id){
+    public ResponseEntity<List<CommentResponseDto>> showAllComment(@PathVariable Long recruit_id){
         List<Comment> comments = commentService.findByCommentAllId(recruit_id);
         List<CommentResponseDto> commentsList = new ArrayList<>();
         for(Comment c: comments){
