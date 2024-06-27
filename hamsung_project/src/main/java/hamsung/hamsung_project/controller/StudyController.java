@@ -50,5 +50,11 @@ public class StudyController {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ResultDto.res(HttpStatus.BAD_REQUEST.toString(), "스터디 삭제에 실패하였습니다."));
     }
 
+    @GetMapping("/study/myStudy/{userId}")
+    public ResponseEntity<StudyDto> showMyStudy(@PathVariable Long userId){
+        StudyDto target=studyService.showMyStudy(userId);
+        return ResponseEntity.status(HttpStatus.OK).body(target);
+    }
+
 
 }

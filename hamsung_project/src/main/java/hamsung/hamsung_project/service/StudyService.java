@@ -1,5 +1,6 @@
 package hamsung.hamsung_project.service;
 
+import hamsung.hamsung_project.dto.StudyDto;
 import hamsung.hamsung_project.entity.Study;
 import hamsung.hamsung_project.repository.StudyRepository;
 import jakarta.transaction.Transactional;
@@ -51,5 +52,9 @@ public class StudyService {
 
         }
         return false;
+    }
+
+    public StudyDto showMyStudy(Long userId) {
+        return null;
     }
 }
