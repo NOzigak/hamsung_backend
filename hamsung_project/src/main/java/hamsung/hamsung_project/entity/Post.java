@@ -41,7 +41,7 @@ public class Post {
     @Column(insertable = false)
     private LocalDateTime updated_at;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="study_id")
     private Study study;
 

@@ -2,6 +2,7 @@ package hamsung.hamsung_project.service;
 
 import hamsung.hamsung_project.entity.Study;
 import hamsung.hamsung_project.repository.StudyRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +13,7 @@ public class StudyService {
     @Autowired
     StudyRepository studyRepository;
 
+    @Transactional
     public boolean endStudy(Long id){
         Study target=studyRepository.findById(id).orElse(null);
         if(target!=null){
