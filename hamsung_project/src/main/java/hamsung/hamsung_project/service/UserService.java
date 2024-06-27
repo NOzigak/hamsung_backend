@@ -1,8 +1,11 @@
 package hamsung.hamsung_project.service;
 
 import hamsung.hamsung_project.dto.UserRequestDTO;
+import hamsung.hamsung_project.entity.Review;
 import hamsung.hamsung_project.entity.User;
+import hamsung.hamsung_project.repository.ReviewRepository;
 import hamsung.hamsung_project.repository.UserRepository;
+import org.antlr.v4.runtime.misc.LogManager;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -15,11 +18,13 @@ public class UserService {
 
     private UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final ReviewRepository reviewRepository;
 
 
-    public UserService(UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
+    public UserService(UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder, ReviewRepository reviewRepository) {
         this.userRepository = userRepository;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+        this.reviewRepository = reviewRepository;
     }
 
     public Long joinUser(UserRequestDTO userDTO){
@@ -36,6 +41,24 @@ public class UserService {
         User data = userDTO.toEntity();
 
         userRepository.save(data);
+
+        Review review=new Review();
+        review.setNoLate(0L);
+        review.setFaithful(0L);
+        review.setKind(0L);
+        review.setUnkind(0L);
+        review.setFastAnswer(0L);
+        review.setSlowAnswer(0L);
+        review.setPassive(0L);
+        review.setAbsent(0L);
+
+        review.setUser(data);
+
+        reviewRepository.save(review);
+        data.setReview(review);
+
+        userRepository.save(data);
+
         return data.getId();
     }
 

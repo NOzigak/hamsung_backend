@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/hamsung_backend.hamsung_project.main.iml" filepath="$PROJECT_DIR$/.idea/modules/hamsung_backend.hamsung_project.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/hamsung_project.iml" filepath="$PROJECT_DIR$/.idea/hamsung_project.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/hamsung_project.hamsung_project.main.iml" filepath="$PROJECT_DIR$/.idea/modules/hamsung_project.hamsung_project.main.iml" />
     </modules>
   </component>
 </project>
