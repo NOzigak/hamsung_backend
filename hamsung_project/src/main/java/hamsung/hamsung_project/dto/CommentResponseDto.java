@@ -12,6 +12,10 @@ import java.util.List;
 @NoArgsConstructor
 public class CommentResponseDto {
 
+    private Long id;
+
+    private Long recruit_id;
+
     private String username;
 
     private String text;
@@ -21,7 +25,9 @@ public class CommentResponseDto {
     private List<ChildCommentResponseDto> childs;
 
 
-    private CommentResponseDto(String username, String text, String modifiedDate, List<ChildCommentResponseDto> childs) {
+    private CommentResponseDto(Long id, Long recruit_id,String username, String text, String modifiedDate, List<ChildCommentResponseDto> childs) {
+        this.id = id;
+        this.recruit_id = recruit_id;
         this.username = username;
         this.text = text;
         this.modifiedDate = modifiedDate;
@@ -33,7 +39,7 @@ public class CommentResponseDto {
         List<ChildCommentResponseDto> childs = new ArrayList<>();
         for (ChildComment c : comment.getChilds()) childs.add(ChildCommentResponseDto.of(c));
 
-        return new CommentResponseDto(comment.getUser().getUsername(), comment.getText(), comment.getModifiedDate(), childs);
+        return new CommentResponseDto(comment.getId(), comment.getRecruitId(), comment.getUser().getUsername(), comment.getText(), comment.getModifiedDate(), childs);
     }
 
 

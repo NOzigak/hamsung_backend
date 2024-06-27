@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 @Service
 public class CommentService {
@@ -37,6 +38,7 @@ public class CommentService {
 
         Comment comment = commentDto.toEntity();
         comment.setUser(user);
+        comment.setRecruitId(recruitsId); // 아직 미완
         commentRepository.save(comment);
         return ResponseEntity.ok("create comment successfully");
     }
@@ -122,6 +124,14 @@ public class CommentService {
 
     public Comment findByCommentId(Long commentId) {
         return commentRepository.findById(commentId).get();
+    }
+
+    /*
+     * 임시로 모든 댓글 응답을 JSON으로 보기 위해 만듦
+     * */
+    // 임시로 만든 모집글의 모든 comment 조회하는 서비스 로직
+    public List<Comment> findByCommentAllId(Long recruit_id){
+        return commentRepository.findAllByRecruitId(recruit_id);
     }
 
 }

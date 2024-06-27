@@ -9,6 +9,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Controller
 public class CommentController {
 
@@ -67,6 +70,23 @@ public class CommentController {
     @PutMapping("/child-comments/{child-comment-id}")
     public ResponseEntity updateChildComment(@PathVariable(name="child-comment-id") Long childCommentId, Long userId, String text) {
         return commentService.updateChildComment(childCommentId, userId, text);
+    }
+
+
+    /*
+    * 임시로 모든 댓글 응답을 JSON으로 보기 위해 만듦
+    * */
+    // 임시 모집글 관련 모든 댓글, 대댓글 불러오는 컨트롤러
+    @GetMapping("tmp/r/{recruit_id}")
+    public ResponseEntity showAllComment(@PathVariable Long recruit_id){
+        List<Comment> comments = commentService.findByCommentAllId(recruit_id);
+        List<CommentResponseDto> commentsList = new ArrayList<>();
+        for(Comment c: comments){
+            commentsList.add(CommentResponseDto.of(c));
+        }
+
+
+        return ResponseEntity.ok(commentsList);
     }
 
 

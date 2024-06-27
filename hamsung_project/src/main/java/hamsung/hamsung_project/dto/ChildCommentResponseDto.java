@@ -9,6 +9,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ChildCommentResponseDto {
 
+    private Long parent_id;
+
+    private Long id;
+
     private String username;
 
     private String text;
@@ -16,14 +20,16 @@ public class ChildCommentResponseDto {
     private String modifiedDate;
 
 
-    private ChildCommentResponseDto(String username, String text, String modifiedDate) {
+    private ChildCommentResponseDto(Long parent_id, Long id,String username, String text, String modifiedDate) {
+        this.parent_id = parent_id;
+        this.id = id;
         this.username = username;
         this.text = text;
         this.modifiedDate = modifiedDate;
     }
 
     public static ChildCommentResponseDto of(ChildComment childComment) {
-        return new ChildCommentResponseDto(childComment.getUsername(), childComment.getText(), childComment.getModifiedDate());
+        return new ChildCommentResponseDto(childComment.getComment().getId(),childComment.getId(), childComment.getUsername(), childComment.getText(), childComment.getModifiedDate());
     }
 
 

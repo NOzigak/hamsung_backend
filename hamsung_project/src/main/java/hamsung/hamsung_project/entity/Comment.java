@@ -15,7 +15,6 @@ public class Comment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "comment_id")
     private Long id;
 
     private String text;
@@ -33,7 +32,7 @@ public class Comment {
 
 //    @ManyToOne
 //    @JoinColumn(name ="recruit_id")
-//    private Recruit recruit; //스터디 모집글
+    private Long recruitId; //스터디 모집글
 
     public static Comment createComment(Long id, String text, String createdDate, String modifiedDate) {
         return Comment.builder()
