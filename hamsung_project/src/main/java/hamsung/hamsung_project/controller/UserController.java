@@ -3,6 +3,7 @@ package hamsung.hamsung_project.controller;
 import hamsung.hamsung_project.dto.UserRequestDTO;
 import hamsung.hamsung_project.entity.User;
 import hamsung.hamsung_project.service.UserService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -50,7 +51,9 @@ public class UserController {
     @PutMapping("/users/{user_id}")
     public ResponseEntity updateUser(@PathVariable(name="user_id")Long id, UserRequestDTO userDTO) {
 
-        return userService.updateUser(id, userDTO);
+        userService.updateUser(id, userDTO);
+
+        return new ResponseEntity<>("update success.", HttpStatus.OK);
 
 //        if(!userService.updateUser(id, userDTO)) return ResponseEntity.status(401).body("invalid username");
 //
