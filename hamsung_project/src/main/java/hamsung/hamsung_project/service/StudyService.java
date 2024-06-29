@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class StudyService {
@@ -68,7 +70,14 @@ public class StudyService {
         return false;
     }
 
-    public StudyDto showMyStudy(Long userId) {
-        return null;
+    /*
+    public List<StudyDto> showMyStudy(List<StudyMember> members) {
+        studyId를 담을 리스트 생성하기.
+        각 studyMember에 대해 getStudyId()해서 얻은 studyId들을 담기
+        중복 제거하기
+        리스트 내 모든 스터디 아이디에 대해  studyRepository.findById(리스트에 저장된 study id) 해서
+        객체 얻고 얘네들 모아 반환하기
     }
+    */
+
 }

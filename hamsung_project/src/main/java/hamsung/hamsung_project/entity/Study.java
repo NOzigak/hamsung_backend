@@ -44,12 +44,11 @@ public class Study {
     private LocalDate endDate;
 
     @Column(name="score")
-//    @ColumnDefault("0")
-//    @Builder.Default()
     private Integer score;
 
     @Column(name="leader_id",nullable = false)
     private Long leader_id;
+
 
 
 //    // 모든 필드를 포함하는 생성자 //필요한가?
@@ -80,5 +79,6 @@ public class Study {
                 requestsDto.getUserId() //leader_id
         );
     }
+
 
 }
