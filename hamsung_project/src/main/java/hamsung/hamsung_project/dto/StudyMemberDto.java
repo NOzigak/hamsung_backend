@@ -24,5 +24,6 @@ public class StudyMemberDto {
         this.users.setId(user_id);
         this.users.setUsername(username);
         this.review = review;
+
     }
 }
