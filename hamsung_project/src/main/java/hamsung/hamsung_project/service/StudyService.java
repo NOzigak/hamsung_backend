@@ -1,5 +1,6 @@
 package hamsung.hamsung_project.service;
 
+import hamsung.hamsung_project.dto.RecruitsRequestsDto;
 import hamsung.hamsung_project.dto.StudyDto;
 import hamsung.hamsung_project.entity.Study;
 import hamsung.hamsung_project.repository.StudyRepository;
@@ -8,13 +9,28 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class StudyService {
     @Autowired
     StudyRepository studyRepository;
 
+
+    //스터디 생성
     @Transactional
+    public StudyDto createStudy(RecruitsRequestsDto requestsDto){
+        //엔티티 생성
+        Study study=Study.createStudyEntity(requestsDto);
+        //엔티티->데이터베이스에 저장
+        studyRepository.save(study);
+        //requestDto를 studyDto로 변경
+        StudyDto target=StudyDto.createStudyDto(study);
+        //dto로 변환해 return
+        return target;
+    }
+
     public boolean endStudy(Long id){
         Study target=studyRepository.findById(id).orElse(null);
         if(target!=null){
@@ -54,7 +70,14 @@ public class StudyService {
         return false;
     }
 
-    public StudyDto showMyStudy(Long userId) {
-        return null;
+    /*
+    public List<StudyDto> showMyStudy(List<StudyMember> members) {
+        studyId를 담을 리스트 생성하기.
+        각 studyMember에 대해 getStudyId()해서 얻은 studyId들을 담기
+        중복 제거하기
+        리스트 내 모든 스터디 아이디에 대해  studyRepository.findById(리스트에 저장된 study id) 해서
+        객체 얻고 얘네들 모아 반환하기
     }
+    */
+
 }

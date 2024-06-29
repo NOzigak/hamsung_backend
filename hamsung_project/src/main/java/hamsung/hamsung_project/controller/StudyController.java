@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 public class StudyController {
     @Autowired
@@ -50,11 +52,24 @@ public class StudyController {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ResultDto.res(HttpStatus.BAD_REQUEST.toString(), "스터디 삭제에 실패하였습니다."));
     }
 
+    /*
+>>>>>>> Stashed changes
     @GetMapping("/study/myStudy/{userId}")
-    public ResponseEntity<StudyDto> showMyStudy(@PathVariable Long userId){
-        StudyDto target=studyService.showMyStudy(userId);
+    public ResponseEntity<?> showMyStudy(@PathVariable Long userId){
+
+        List<StudyMember> members=studyMemberService.showStudyMembers(userId);
+        List<StudyDto> target=StudyService.showMyStudy(members);
+        if(target==null){
+            return ResponseEntity.status(HttpStatus.OK).body(ResultDto.res(HttpStatus.OK.toString(),"현재 들어가 있는 스터디가 없습니다"));
+        }
         return ResponseEntity.status(HttpStatus.OK).body(target);
+<<<<<<< Updated upstream
     }
+
+
+
+    }*/
+
 
 
 }
