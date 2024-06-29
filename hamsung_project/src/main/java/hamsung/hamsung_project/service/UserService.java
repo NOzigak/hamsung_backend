@@ -3,6 +3,7 @@ package hamsung.hamsung_project.service;
 import hamsung.hamsung_project.dto.UserRequestDTO;
 import hamsung.hamsung_project.entity.Review;
 import hamsung.hamsung_project.entity.User;
+import hamsung.hamsung_project.exception.InvalidDataException;
 import hamsung.hamsung_project.repository.ReviewRepository;
 import hamsung.hamsung_project.repository.UserRepository;
 import org.antlr.v4.runtime.misc.LogManager;
@@ -28,15 +29,21 @@ public class UserService {
     }
 
     public Long joinUser(UserRequestDTO userDTO){
+        System.out.println("======Service======");
 
         String username = userDTO.getUsername();
         String email = userDTO.getEmail();
+        System.out.println("======= joinUser username 확인 ======");
+        System.out.println(username);
 
-        if (userRepository.existsByUsername(username))
-            throw new IllegalStateException("invalid username");
+        if (userRepository.existsByUsername(username)) {
+            User tmp = userRepository.findByUsername(username);
+            System.out.println(tmp.getUsername());
+            throw new InvalidDataException("1 invalid username");
+        }
         if (userRepository.existsByEmail(email))
-            throw new IllegalStateException("invalid email");
-
+            throw new IllegalStateException("2 invalid email");
+        System.out.println(userDTO.getPassword());
         userDTO.setPassword(bCryptPasswordEncoder.encode(userDTO.getPassword()));
         User data = userDTO.toEntity();
 
@@ -54,8 +61,8 @@ public class UserService {
 
         review.setUser(data);
 
-        reviewRepository.save(review);
-        data.setReview(review);
+//        reviewRepository.save(review);
+//        data.setReview(review);
 
         userRepository.save(data);
 
@@ -80,7 +87,7 @@ public class UserService {
         user.setUsername(username);
         user.setEmail(email);
         user.setPassword(bCryptPasswordEncoder.encode(password));
-        user.setImaged_num(userDTO.getImage_num());
+//        user.setImaged_num(userDTO.getImage_num());
 
         userRepository.save(user);
         return new ResponseEntity<>("update success.", HttpStatus.OK);

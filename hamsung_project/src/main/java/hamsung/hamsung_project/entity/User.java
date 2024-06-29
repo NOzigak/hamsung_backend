@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Entity
 @Data
 @Table(name ="users")
@@ -38,5 +40,8 @@ public class User {
     @OneToOne(mappedBy="user")
     @JsonManagedReference //순환참조 방지 (부모쪽)
     private Review review;
+
+    @OneToMany(mappedBy = "user")
+    private List<StudyMember> studyMember;
 
 }
