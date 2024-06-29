@@ -9,12 +9,21 @@ import lombok.*;
 @Setter
 @ToString
 @NoArgsConstructor
+@RequiredArgsConstructor
 @AllArgsConstructor
 public class StudyMemberDto {
     private Study study;
-    private User user;
+    private User users;
     private Review review;
     private String role;
     private Boolean approval;
 
+    // 생성자
+    public StudyMemberDto(Long user_id, String username, Review review) {
+        this.users = new User(); // 새로운 User 객체를 생성
+        this.users.setId(user_id);
+        this.users.setUsername(username);
+        this.review = review;
+
+    }
 }
