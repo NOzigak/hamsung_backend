@@ -15,9 +15,14 @@ public class StudyMemberDto {
     private User user;
     private Review review;
     private String role;
-    private boolean approval;
+    private Boolean approval;
 
-    public boolean getApproval(){
-        return approval;
+    public StudyMemberDto(Long user_id, String username, Review review) {
+        this.user = new User(); // 새로운 User 객체를 생성
+        this.user.setId(user_id);
+        this.user.setUsername(username);
+        this.review = review;
+
     }
+
 }

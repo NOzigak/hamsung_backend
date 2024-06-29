@@ -87,29 +87,30 @@ public class RecruitsController {
     }
 
 
-////    스터디 신청 인원 조회(postman test아직X , user 등록 후 다시 해보기)
-//    @GetMapping("recruits/{study_id}/members")
-//    public ResponseEntity<List<ApplySummaryDto>> findAllAppliers(@PathVariable Long study_id){
-//        try {
+    //스터디 신청 인원 조회(postman test아직X , user 등록 후 다시 해보기)
+    @GetMapping("recruits/{study_id}/members")
+    public ResponseEntity<List<ApplyingSummaryDto>> findAllAppliers(@PathVariable Long study_id){
+        try {
+            List<ApplyingSummaryDto> appliedList=studyMemberService.findAllAppliers(study_id);
+            return ResponseEntity.status(HttpStatus.OK).body(appliedList);
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
 //            List<ApplySummaryDto> appliedList=studyMemberService.findAllAppliers(study_id);
 //            return ResponseEntity.status(HttpStatus.OK).body(appliedList);
-//        } catch (IllegalArgumentException e) {
-//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//        }
-////            List<ApplySummaryDto> appliedList=studyMemberService.findAllAppliers(study_id);
-////            return ResponseEntity.status(HttpStatus.OK).body(appliedList);
-//    }
+    }
 
 
-//    스터디 멤버 승인
-//    @PatchMapping("recruits/{study_id}/members")
-//    public ResponseEntity<ResultDto<String>> approveMember(@PathVariable Long study_id){
-//        boolean isApproved = studyMemberService.approveMember(study_id);
-//        if (isApproved) {
-//            return ResponseEntity.status(HttpStatus.OK).body(ResultDto.res(HttpStatus.OK.toString(), "스터디를 모집완료 상태로 변경합니다(모집중->모집완료)"));
-//        } else {
-//            return ResponseEntity.status(HttpStatus.OK).body(ResultDto.res(HttpStatus.OK.toString(), "스터디를 모집중 상태로 변경합니다(모집완료->모집중)"));
-//        }
-//
-//}
-}
+    //스터디 멤버 승인
+    @PatchMapping("recruits/{study_id}/members")
+    public ResponseEntity<ResultDto<String>> approveMember(@PathVariable Long study_id){
+        boolean isApproved = studyMemberService.approveMember(study_id);
+        if (isApproved) {
+            return ResponseEntity.status(HttpStatus.OK).body(ResultDto.res(HttpStatus.OK.toString(), "스터디를 모집완료 상태로 변경합니다(모집중->모집완료)"));
+        } else {
+            return ResponseEntity.status(HttpStatus.OK).body(ResultDto.res(HttpStatus.OK.toString(), "스터디를 모집중 상태로 변경합니다(모집완료->모집중)"));
+        }
+
+
+
+}}
