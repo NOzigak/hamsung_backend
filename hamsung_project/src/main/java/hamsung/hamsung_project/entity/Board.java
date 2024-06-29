@@ -8,6 +8,7 @@ import lombok.Setter;
 
 import java.math.BigInteger;
 import java.util.Date;
+import java.util.List;
 
 @Setter
 @Getter
@@ -53,6 +54,7 @@ public class Board {
     private Date endDate;
 
 
+
     public long getRecruitsId() {
         return id;
     }
@@ -78,4 +80,9 @@ public class Board {
         this.startDate=requestsDto.getStartDate();
         this.endDate=requestsDto.getEndDate();
     }
+
+    /* 우석 추가 */
+//    @OneToMany
+//    private List<Comment> comments;
+
 }
