@@ -20,7 +20,7 @@ public class UserController {
     }
 
     @PostMapping("/users")
-    public ResponseEntity createUser(UserRequestDTO userdto) {
+    public ResponseEntity createUser(@RequestBody UserRequestDTO userdto) {
 
         userService.joinUser(userdto);
 
