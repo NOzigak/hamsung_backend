@@ -15,9 +15,6 @@ public class StudyMemberDto {
     private User user;
     private Review review;
     private String role;
-    private boolean approval;
+    private Boolean approval;
 
-    public boolean getApproval(){
-        return approval;
-    }
 }

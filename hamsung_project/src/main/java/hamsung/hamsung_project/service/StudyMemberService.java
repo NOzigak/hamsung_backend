@@ -1,7 +1,7 @@
 package hamsung.hamsung_project.service;
 
-import hamsung.hamsung_project.dto.ApplySummaryDto;
 import hamsung.hamsung_project.dto.ApplyingDto;
+import hamsung.hamsung_project.dto.ApplyingSummaryDto;
 import hamsung.hamsung_project.dto.StudyMemberDto;
 import hamsung.hamsung_project.entity.Study;
 import hamsung.hamsung_project.entity.StudyMember;
@@ -24,7 +24,6 @@ public class StudyMemberService {
 
     @Autowired
     private final StudyMemberRepository studyMemberRepository;
-    static ReviewRepository reviewRepository;
     @Autowired
     private final StudyRepository studyRepository;
     @Autowired
@@ -44,37 +43,39 @@ public class StudyMemberService {
         return studyMemberRepository.save(studyMember);
     }
 
-//    //신청인원 목록 조회
-//    @Transactional
-//    public List<ApplySummaryDto> findAllAppliers(Long study_id) {
-//        Study study = studyRepository.findById(study_id)
-//                .orElseThrow(() -> new IllegalArgumentException("해당 스터디를 찾을 수 없어요."));
-//
-//        //studyMemberRepository에서 study_id FK로 찾기->studyMemberList를 applyingSummaryList로 바꿔줘야.
-//        List<StudyMemberDto> applyingList = studyMemberRepository.findByStudyMember_StudyId(study_id);
-//        return applyingList;
-//    }
-//
-//    //스터디 멤버 승인
-//    @Transactional
-//    public boolean approveMember(Long study_id) {
-//        List<StudyMemberDto> list = studyMemberRepository.findByStudyMember_StudyId(study_id);
-//        for (StudyMemberDto member : list) {
-//            if (!member.getApproval()) {
-//                member.setApproval(true);
-//            } else {
-//                member.setApproval(false);
-//            }
-//            //member를 entity로 바꿔줘야. // studymember entity로 바꿔주는 메서드 작성
-////            studyMemberRepository.save(member);
-////            //study members_num 필드 값 +1
-////            //study_id로 study찾고 members_num field get -> +1
-////            ResponseEntity<Study>=studyRepository.findById(study_id);
-//
-//
-//            return member.getApproval();
-//        }
-//
-//    }
+    //신청인원 목록 조회
+    @Transactional
+    public List<ApplyingSummaryDto> findAllAppliers(Long study_id) {
+        Study study = studyRepository.findById(study_id)
+                .orElseThrow(() -> new IllegalArgumentException("해당 스터디를 찾을 수 없어요."));
+
+        //studyMemberRepository에서 study_id FK로 찾기->studyMemberList를 applyingSummaryList로 바꿔줘야.
+        List<StudyMemberDto> applyingList = studyMemberRepository.findByStudyMember_StudyId(study_id);
+        List<ApplyingSummaryDto> target=ApplyingSummaryDto.summaryMembers(applyingList);
+        return target;
+    }
+
+    //스터디 멤버 승인
+    @Transactional
+    public boolean approveMember(Long study_id) {
+        List<StudyMemberDto> list = studyMemberRepository.findByStudyMember_StudyId(study_id);
+        for (StudyMemberDto member : list) {
+            if (member.getApproval()==false) {
+                member.setApproval(true);
+            } else {
+                member.setApproval(true);
+            }
+            //member를 entity로 바꿔줘야. // studymember entity로 바꿔주는 메서드 작성
+//            studyMemberRepository.save(member);
+//            //study members_num 필드 값 +1
+//            //study_id로 study찾고 members_num field get -> +1
+//            ResponseEntity<Study>=studyRepository.findById(study_id);
+
+
+            return member.getApproval();
+        }
+        return true;
+
+    }
 
 }
