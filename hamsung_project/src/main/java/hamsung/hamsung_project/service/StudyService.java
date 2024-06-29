@@ -1,5 +1,6 @@
 package hamsung.hamsung_project.service;
 
+import hamsung.hamsung_project.dto.RecruitsRequestsDto;
 import hamsung.hamsung_project.dto.StudyDto;
 import hamsung.hamsung_project.entity.Study;
 import hamsung.hamsung_project.repository.StudyRepository;
@@ -14,7 +15,20 @@ public class StudyService {
     @Autowired
     StudyRepository studyRepository;
 
+
+    //스터디 생성
     @Transactional
+    public StudyDto createStudy(RecruitsRequestsDto requestsDto){
+        //엔티티 생성
+        Study study=Study.createStudyEntity(requestsDto);
+        //엔티티->데이터베이스에 저장
+        studyRepository.save(study);
+        //requestDto를 studyDto로 변경
+        StudyDto target=StudyDto.createStudyDto(study);
+        //dto로 변환해 return
+        return target;
+    }
+
     public boolean endStudy(Long id){
         Study target=studyRepository.findById(id).orElse(null);
         if(target!=null){

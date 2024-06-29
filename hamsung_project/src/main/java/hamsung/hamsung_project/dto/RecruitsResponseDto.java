@@ -1,40 +1,51 @@
 package hamsung.hamsung_project.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import hamsung.hamsung_project.entity.Board;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.math.BigInteger;
+import java.time.LocalDate;
 import java.util.Date;
 
 @Getter
-@NoArgsConstructor
+@Setter
+@ToString
+//@NoArgsConstructor
+@AllArgsConstructor
 public class RecruitsResponseDto {
-    private Long recruits_id;
-    private BigInteger user_id;
-    private BigInteger study_id;
+    private Long id;
+    @JsonProperty("user_id")
+    private BigInteger userId;
+    @JsonProperty("study_id")
+    private BigInteger studyId;
     private String title;
     private String description;
     private String category;
     private BigInteger capacity;
     private String place;
-    private BigInteger view;
-    private Date startDate;
-    private Date endDate;
+    private Long view;
+    @JsonProperty("start_date")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDate startDate;
+    @JsonProperty("end_date")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDate endDate;
+    private BigInteger comments;
+    @JsonProperty("createdAt")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDate createdAt;
+    private Boolean isRecruit;
 
-    public RecruitsResponseDto(Board entity){
-        this.recruits_id=entity.getRecruitsId();
-        this.user_id=entity.getUserId();
-        this.study_id=entity.getStudyId();
-        this.title=entity.getTitle();
-        this.description=entity.getDescription();
-        this.category=entity.getCategory();
-        this.capacity=entity.getCapacity();
-        this.place=entity.getPlace();
-        this.view=entity.getView();
-        this.startDate=entity.getStartDate();
-        this.endDate=entity.getEndDate();
+
+
+    //entity->dto
+    public static RecruitsResponseDto createRecruitsDTO(Board board) {
+        return new RecruitsResponseDto(null,null,null,board.getTitle(),board.getDescription(),board.getCategory()
+                ,board.getCapacity(),board.getPlace(), board.getView(),board.getStartDate(),board.getEndDate(),null,board.getCreatedAt(),board.getIsRecruit());
     }
+
 
 
 
