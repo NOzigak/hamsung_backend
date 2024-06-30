@@ -24,9 +24,7 @@ public class UserController {
 
     @PostMapping("/users")
     public ResponseEntity createUser(@RequestBody UserRequestDTO userdto) {
-
         userService.joinUser(userdto);
-
         return ResponseEntity.ok("User registered successfully");
     }
 
@@ -41,7 +39,6 @@ public class UserController {
 
     @DeleteMapping("/users/{user_id}")
     public ResponseEntity deleteUser(@PathVariable(name = "user_id") Long id) {
-
         userService.deleteById(id);
         return ResponseEntity.ok("delete success.");
     }

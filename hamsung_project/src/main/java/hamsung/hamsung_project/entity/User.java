@@ -30,10 +30,10 @@ public class User {
 
     private String badge;
 
-    private float point;
+    private int point;
 
     // join 에서 userDTO를 받아서 userDTO.toEntity 메소드 안에서 실행 -> 회원가입시에는 Review와 studyMember가 널
-    public static User createUser(Long id, String username, String email, String password, int imaged_num, String role, String badge, float point) {
+    public static User createUser(Long id, String username, String email, String password, int imaged_num, String role, String badge, int point) {
         return User.builder().id(id).username(username).email(email).password(password)
                 .imaged_num(imaged_num).role(role).badge(badge).point(point).build();
     }

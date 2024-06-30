@@ -44,4 +44,6 @@ public class Review {
     @JsonBackReference //순환참조 방지(자식쪽)
     private User user;
 
+    private int point;
+
 }
