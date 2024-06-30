@@ -1,5 +1,6 @@
 package hamsung.hamsung_project.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -38,10 +39,9 @@ public class Review {
     @Column(name="absent", nullable=false)
     private Long absent;
 
-    /*
     @OneToOne
     @JoinColumn(name="user_id")
+    @JsonBackReference //순환참조 방지(자식쪽)
     private User user;
-    */
 
 }

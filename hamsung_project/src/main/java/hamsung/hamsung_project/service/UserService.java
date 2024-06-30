@@ -67,11 +67,11 @@ public class UserService {
         return user.getId();
     }
 
-    public Optional<User> findById(Long id) {
+    public User findById(Long id) {
         if(!userRepository.findById(id).isPresent())
             throw new InvalidDataException("invalid user");
 
-        Optional<User> data = userRepository.findById(id);
+        User data = userRepository.findById(id).get();
         return data;
     }
 
