@@ -89,9 +89,9 @@ public class RecruitsController {
 
     //스터디 신청 인원 조회(postman test아직X , user 등록 후 다시 해보기)
     @GetMapping("recruits/{study_id}/members")
-    public ResponseEntity<List<ApplySummaryDto>> findAllAppliers(@PathVariable Long study_id) {
+    public ResponseEntity<List<ApplyingSummaryDto>> findAllAppliers(@PathVariable Long study_id) {
         try {
-            List<ApplySummaryDto> appliedList = studyMemberService.findAllAppliers(study_id);
+            List<ApplyingSummaryDto> appliedList = studyMemberService.findAllAppliers(study_id);
             return ResponseEntity.status(HttpStatus.OK).body(appliedList);
         } catch (IllegalArgumentException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
