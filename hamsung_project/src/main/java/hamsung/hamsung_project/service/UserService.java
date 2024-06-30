@@ -12,7 +12,7 @@ import java.util.Optional;
 @Service
 public class UserService {
 
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
 
@@ -41,21 +41,21 @@ public class UserService {
     public Long updateUser(Long id, UserRequestDTO userDTO) {
 
         String username = userDTO.getUsername();
-        String email = userDTO.getEmail();
-        String password= userDTO.getPassword();
+//        String email = userDTO.getEmail();
+//        String password= userDTO.getPassword();
 
         if (userRepository.existsByUsername(username))
             throw new InvalidDataException("invalid username.");
-        if (userRepository.existsByEmail(email))
-            throw new InvalidDataException("invalid email.");
+//        if (userRepository.existsByEmail(email))
+//            throw new InvalidDataException("invalid email.");
         // 유저 id 검증
         if (userRepository.existsById(id))
             throw new InvalidDataException("not found user.");
         User user = userRepository.findById(id).get();
 
         user.setUsername(username);
-        user.setEmail(email);
-        user.setPassword(bCryptPasswordEncoder.encode(password));
+//        user.setEmail(email);
+//        user.setPassword(bCryptPasswordEncoder.encode(password));
         user.setImaged_num(userDTO.getImage_num());
 
         userRepository.save(user);
