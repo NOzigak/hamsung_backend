@@ -1,10 +1,10 @@
 package hamsung.hamsung_project.config.jwt;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import hamsung.hamsung_project.config.auth.CustomUserDetails;
 import hamsung.hamsung_project.entity.RefreshToken;
 import hamsung.hamsung_project.repository.RefreshRepository;
 import jakarta.servlet.FilterChain;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpStatus;
@@ -15,15 +15,17 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import java.util.Collection;
-import java.util.Date;
-import java.util.Iterator;
+import java.io.IOException;
+import java.util.*;
 
 public class LoginFilter extends UsernamePasswordAuthenticationFilter {
 
+    // JSON 파싱을 위해 사용
+    private final ObjectMapper objectMapper = new ObjectMapper();
+
     private final AuthenticationManager authenticationManager;
     private final JWTUtil jwtUtil;
-    private RefreshRepository refreshRepository;
+    private final RefreshRepository refreshRepository;
 
     public LoginFilter(AuthenticationManager authenticationManager, JWTUtil jwtUtil, RefreshRepository refreshRepository) {
 
@@ -35,13 +37,37 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
 
-        String username = obtainUsername(request);
-        String password = obtainPassword(request);
+        String email = null;
+        String password = null;
 
-        System.out.println(username);
 
-        UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(username, password);
+        // JSON 요청 처리
+        if (request.getContentType().equals("application/json")) {
+            try {
+                System.out.println("=====json ======");
+                // JSON 요청을 Map으로 파싱
+                Map<String, String> requestMap = objectMapper.readValue(request.getInputStream(), Map.class);
+                System.out.println("requestMap :" + requestMap);
+                // userInfo 키의 값을 추출하고 타입 캐스팅
+//                Map<String, String> userInfo = (Map<String, String>) requestMap.get("userInfo");
+//                System.out.println("userInfo :" + userInfo);
+                // email과 password 값을 추출
+                email = requestMap.get("email");
+                password = requestMap.get("password");
+                System.out.println(email);
+                System.out.println(password);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            // 요청이 form-data 형식인경우 obtain으로 바로 꺼낼 수 있다.
+            System.out.println("=====form-data======");
+            email = obtainUsername(request);
+            password = obtainPassword(request);
+        }
 
+
+        UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(email, password);
         return authenticationManager.authenticate(authToken);
     }
 
@@ -62,7 +88,7 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
         String role = auth.getAuthority();
 
         //토큰 생성
-        String access = jwtUtil.createJwt(userId,"access", username, role, 600000L);
+        String access = jwtUtil.createJwt(userId,"access", username, role, 1000 * 60 * 10L); // (1초 * 60) * 10 = 10분
         String refresh = jwtUtil.createJwt(userId,"refresh", username, role, 86400000L);
 
         //Refresh 토큰 저장
