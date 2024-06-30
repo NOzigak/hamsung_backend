@@ -28,7 +28,7 @@ public class ApplyingSummaryDto {
 public static List<ApplyingSummaryDto> summaryMembers(List<StudyMemberDto> studyMemberDto) {
     List<ApplyingSummaryDto> summaryDtos = new ArrayList<>();
     for (StudyMemberDto dto : studyMemberDto) {
-        summaryDtos.add(new ApplyingSummaryDto(dto.getUser().getId(), dto.getUser().getUsername(), dto.getReview()));
+        summaryDtos.add(new ApplyingSummaryDto(dto.getUsers().getId(), dto.getUsers().getUsername(), dto.getReview()));
     }
     return summaryDtos;
 }

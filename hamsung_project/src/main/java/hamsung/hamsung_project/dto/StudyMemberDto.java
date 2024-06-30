@@ -9,7 +9,6 @@ import lombok.*;
 @Setter
 @ToString
 @NoArgsConstructor
-@RequiredArgsConstructor
 @AllArgsConstructor
 public class StudyMemberDto {
     private Study study;
