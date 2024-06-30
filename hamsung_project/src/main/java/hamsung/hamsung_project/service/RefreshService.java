@@ -24,7 +24,7 @@ public class RefreshService {
         this.jwtUtil = jwtUtil;
     }
 
-    public ResponseEntity<?> reissue(HttpServletRequest request, HttpServletResponse response) {
+    public ResponseEntity<?>    reissue(HttpServletRequest request, HttpServletResponse response) {
         //get refresh token
         String refresh = null;
         Long user_id = null;
@@ -94,7 +94,7 @@ public class RefreshService {
         refreshEntity.setUser_id(user_id);
         refreshEntity.setUsername(username);
         refreshEntity.setRefresh(refresh);
-        refreshEntity.setExpiration(date.toString());
+        refreshEntity.setExpiration(date);
 
         refreshRepository.save(refreshEntity);
     }
