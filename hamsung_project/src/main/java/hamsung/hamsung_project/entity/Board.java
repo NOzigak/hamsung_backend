@@ -7,6 +7,7 @@ import lombok.*;
 import java.math.BigInteger;
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.List;
 
 @Setter
 @Getter
@@ -54,11 +55,11 @@ public class Board {
     @Column(name="end_date")
     private LocalDate endDate;
 
-    @Column(name="comments")
-    private BigInteger comments;
-
     @Column(name="created_at")
     private LocalDate createdAt;
+
+    @OneToMany(mappedBy = "board")
+    private List<Comment> comments;
 
 
     //dto->엔티티
