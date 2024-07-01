@@ -39,7 +39,4 @@ public class ReviewResponseDto {
                 .point(review.getPoint())
                 .build();
     }
-
-
-
 }

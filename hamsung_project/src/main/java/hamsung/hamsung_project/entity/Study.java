@@ -51,32 +51,18 @@ public class Study {
 
 
 
-//    // 모든 필드를 포함하는 생성자 //필요한가?
-//    public Study(Long id, String category, String place, Long member_num, Boolean status, LocalDate startDate, LocalDate endDate, Long score, Long leader_id) {
-//        this.id = id;
-//        this.category = category;
-//        this.place = place;
-//        this.member_num = member_num != null ? member_num : 0L;
-//        this.status = status != null ? status : false;
-//        this.startDate = startDate;
-//        this.endDate = endDate;
-//        this.score = score != null ? score : 0L;
-//        this.leader_id = leader_id;
-//    }
-
-
     //dto->entity
     public static Study createStudyEntity(RecruitsRequestsDto requestsDto) {
         return new Study(
-                requestsDto.getId(),
+                null,
                 requestsDto.getCategory(),
                 requestsDto.getPlace(),
-                0, // 기본값
-                false, // 기본값
-                requestsDto.getStartDate(),
-                requestsDto.getEndDate(),
-                null, // 기본값
-                requestsDto.getUserId() //leader_id
+                0, // members_num 기본값
+                null, // status 기본값
+                null, // startDate 기본값
+                null, //endDate 기본값
+                null, //score 기본값
+                requestsDto.getUser_id() //leader_id
         );
     }
 
