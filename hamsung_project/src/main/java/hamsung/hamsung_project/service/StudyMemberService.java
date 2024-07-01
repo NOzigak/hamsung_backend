@@ -2,7 +2,6 @@ package hamsung.hamsung_project.service;
 
 import hamsung.hamsung_project.dto.ApplyingSummaryDto;
 import hamsung.hamsung_project.dto.ApplyingDto;
-import hamsung.hamsung_project.dto.ApplyingSummaryDto;
 import hamsung.hamsung_project.dto.StudyMemberDto;
 import hamsung.hamsung_project.entity.Study;
 import hamsung.hamsung_project.entity.StudyMember;
@@ -14,10 +13,11 @@ import hamsung.hamsung_project.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -52,31 +52,40 @@ public class StudyMemberService {
                 .orElseThrow(() -> new IllegalArgumentException("해당 스터디를 찾을 수 없어요."));
 
         //studyMemberRepository에서 study_id FK로 찾기->studyMemberList를 applyingSummaryList로 바꿔줘야.
-        List<StudyMemberDto> applyingList = studyMemberRepository.findByStudyMember_StudyId(study_id);
-        List<ApplyingSummaryDto> target=ApplyingSummaryDto.summaryMembers(applyingList);
-        return target;
+        List<StudyMember> StudyMemberList = studyMemberRepository.findByStudy_id(study_id);
+        List<ApplyingSummaryDto> summaryDtoList=new ArrayList<>();
+        for(StudyMember studyMember:StudyMemberList){
+            summaryDtoList.add(ApplyingSummaryDto.createSummaryDto(studyMember));
+        }
+//                ApplyingSummaryDto.summaryMembers(applyingList);
+        return summaryDtoList;
     }
 
     //스터디 멤버 승인
+    //false=멤버승인X, true=멤버 승인
+    //프론트 -> 버튼 비활성화.. ?
     @Transactional
-    public boolean approveMember(Long study_id) {
-        List<StudyMemberDto> list = studyMemberRepository.findByStudyMember_StudyId(study_id);
-        for (StudyMemberDto member : list) {
-            if (member.getApproval()==false) {
-                member.setApproval(true);
-            } else {
-                member.setApproval(true);
-            }
-            //member를 entity로 바꿔줘야. // studymember entity로 바꿔주는 메서드 작성
+    public boolean approveMember(Long study_id,Long users_id) {
+        Study target = studyRepository.findById(study_id)
+                .orElseThrow(() -> new IllegalArgumentException("해당 스터디를 찾을 수 없어요."));
+        StudyMember realMember = studyMemberRepository.findByUsersId(users_id)
+                .orElseThrow(() -> new IllegalArgumentException("해당 사용자를 찾을 수 없어요."));
+//        StudyMember realMember=studyMemberRepository.findByStudy_id(study_id);
+
+        if (realMember.getApproval() == false) {
+            realMember.setApproval(true);
+            target.setMember_num(target.getMember_num() + 1);
+            return true;
+        } else {
+            realMember.setApproval(true);
+            return false;
+        }
+
+        //member를 entity로 바꿔줘야. // studymember entity로 바꿔주는 메서드 작성
 //            studyMemberRepository.save(member);
 //            //study members_num 필드 값 +1
 //            //study_id로 study찾고 members_num field get -> +1
 //            ResponseEntity<Study>=studyRepository.findById(study_id);
-
-
-            return member.getApproval();
-        }
-        return true;
 
     }
 

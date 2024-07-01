@@ -114,7 +114,7 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
         refreshEntity.setUser_id(userId);
         refreshEntity.setUsername(username);
         refreshEntity.setRefresh(refresh);
-        refreshEntity.setExpiration(date.toString());
+        refreshEntity.setExpiration(date);
 
         refreshRepository.save(refreshEntity);
     }

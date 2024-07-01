@@ -86,6 +86,7 @@ public class CommentController {
     @GetMapping("tmp/r/{recruit_id}")
     public ResponseEntity<List<CommentResponseDto>> showAllComment(@PathVariable Long recruit_id){
         List<Comment> comments = commentService.findByCommentAllId(recruit_id);
+        System.out.println(comments.size());
         List<CommentResponseDto> commentsList = new ArrayList<>();
         for(Comment c: comments){
             commentsList.add(CommentResponseDto.of(c));

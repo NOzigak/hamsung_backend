@@ -1,11 +1,13 @@
 package hamsung.hamsung_project.controller;
 
 import hamsung.hamsung_project.dto.*;
-import hamsung.hamsung_project.entity.Board;
+import hamsung.hamsung_project.entity.Recruit;
+import hamsung.hamsung_project.entity.Study;
 import hamsung.hamsung_project.service.RecruitsService;
 import hamsung.hamsung_project.service.StudyMemberService;
 import hamsung.hamsung_project.service.StudyService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +17,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 public class RecruitsController {
+    @Autowired
     private final RecruitsService recruitsService;
     private final StudyService studyService;
     private final StudyMemberService studyMemberService;
@@ -22,17 +25,18 @@ public class RecruitsController {
 
     //게시글 작성 (완료)
     @PostMapping("/recruits")
-    public ResponseEntity<RecruitsResponseDto> createRecruit(@RequestBody RecruitsRequestsDto requestsDto){
-        RecruitsResponseDto createdDTO=recruitsService.createRecruit(requestsDto);
-        studyService.createStudy(requestsDto);
-        return ResponseEntity.status(HttpStatus.OK).body(createdDTO);
+    public ResponseEntity<RecruitsResponseDto> createRecruit(@RequestBody RecruitsRequestsDto requestsDto) {
+        Recruit recruit =recruitsService.createRecruit(requestsDto);
+        Study study=Study.createStudyEntity(requestsDto);//studyDto->entity
+        RecruitsResponseDto completeRecruitsDto=recruitsService.createRecruitWithStudy(recruit,study);
+        return ResponseEntity.status(HttpStatus.OK).body(completeRecruitsDto);
     }
 
-    //게시물 전체 목록 조회-writer 추가해야(닉네임?)
+    //게시물 전체 목록 조회
     @GetMapping("/recruits")
-    public ResponseEntity<List<BoardSummaryDto>> showAllRecruits() {
-        List<BoardSummaryDto> boardList = recruitsService.showAllRecruits();
-        return ResponseEntity.status(HttpStatus.OK).body(boardList);
+    public ResponseEntity<List<RecruitSummaryDto>> showAllRecruits() {
+        List<RecruitSummaryDto> recruitList = recruitsService.showAllRecruits();
+        return ResponseEntity.status(HttpStatus.OK).body(recruitList);
     }
 
     //스터디 모집글 수정-에러 500뜸.. 아직...
@@ -43,11 +47,11 @@ public class RecruitsController {
     }
 
 
-    //스터디 모집상태 변경 - status가 아니라 isRecruit 로 변경해야
+    //스터디 모집상태 변경
     //스터디 엔티티 안에
-    @PutMapping("recruits/{id}/status")
+    @PutMapping("recruits/{id}/isrecruit")
     public ResponseEntity<ResultDto<String>> changeStatus(@PathVariable Long id) {
-        boolean isFinished = recruitsService.changeStatus(id);
+        boolean isFinished = recruitsService.changeIsRecruit(id);
         if (isFinished) {
             return ResponseEntity.status(HttpStatus.OK).body(ResultDto.res(HttpStatus.OK.toString(), "스터디를 모집완료 상태로 변경합니다(모집중->모집완료)"));
         } else {
@@ -75,8 +79,8 @@ public class RecruitsController {
 
     //스터디 지원하기(postman test아직X , user 등록 후 다시 해보기)
     @PostMapping("recruits/{study_id}/members")
-    public ResponseEntity<ResultDto<String>> applyStudy(@PathVariable Long id, @RequestBody ApplyingDto applyingDto) {
-        boolean isApplied = recruitsService.applyStudy(id, applyingDto);
+    public ResponseEntity<ResultDto<String>> applyStudy(@PathVariable Long study_id, @RequestBody ApplyingDto applyingDto) {
+        boolean isApplied = recruitsService.applyStudy(study_id, applyingDto);
         //스터디 id 가져오기
         //user-userid,nickname & review 통채로 가져오기
         if (isApplied) {
@@ -102,15 +106,15 @@ public class RecruitsController {
 
 
     //스터디 멤버 승인
-    @PatchMapping("recruits/{study_id}/members")
-    public ResponseEntity<ResultDto<String>> approveMember(@PathVariable Long study_id) {
-        boolean isApproved = studyMemberService.approveMember(study_id);
+    @PatchMapping("recruits/{study_id}/members/{users_id}")
+    public ResponseEntity<ResultDto<String>> approveMember(@PathVariable Long study_id,@PathVariable Long users_id) {
+        boolean isApproved = studyMemberService.approveMember(study_id,users_id);
         if (isApproved) {
-            return ResponseEntity.status(HttpStatus.OK).body(ResultDto.res(HttpStatus.OK.toString(), "스터디를 모집완료 상태로 변경합니다(모집중->모집완료)"));
+            return ResponseEntity.status(HttpStatus.OK).body(ResultDto.res(HttpStatus.OK.toString(), "승인완료하였습니다."));
         } else {
-            return ResponseEntity.status(HttpStatus.OK).body(ResultDto.res(HttpStatus.OK.toString(), "스터디를 모집중 상태로 변경합니다(모집완료->모집중)"));
+            return ResponseEntity.status(HttpStatus.OK).body(ResultDto.res(HttpStatus.OK.toString(), "이미 승인 완료된 지원자입니다."));
         }
+
+
     }
-
-
 }

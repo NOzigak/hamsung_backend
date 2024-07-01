@@ -1,9 +1,8 @@
 package hamsung.hamsung_project.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import hamsung.hamsung_project.entity.Board;
+import hamsung.hamsung_project.entity.Recruit;
 import hamsung.hamsung_project.entity.Study;
-import hamsung.hamsung_project.entity.StudyMember;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -30,9 +29,9 @@ public class MyStudyDto {
     @JsonProperty("study_name")
     private String studyName;
 
-    public static MyStudyDto createMyStudyDto(Study study, Long userId, Board board){
+    public static MyStudyDto createMyStudyDto(Study study, Long userId, Recruit recruit){
         String myRole = study.getLeader_id().equals(userId) ? "leader" : "member";
-        String studyName=board.getTitle();
+        String studyName= recruit.getTitle();
 
         return new MyStudyDto(study.getId(),study.getCategory(),study.getPlace(),study.getMember_num(),
                 study.getStatus(),study.getStartDate(),study.getEndDate(),study.getScore(),study.getLeader_id(), myRole, studyName);
