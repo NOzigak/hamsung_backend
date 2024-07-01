@@ -23,8 +23,7 @@ public interface RecruitsRepository extends JpaRepository<Board, Long> {
     int updateReadCount(@Param("id")Long id);
 
     //게시글 전체 조회 //DTO로 조회하기
-    @Query("select new hamsung.hamsung_project.dto.BoardSummaryDto(b.id,b.title,b.category,b.place,b.capacity,b.isRecruit,b.createdAt) from Board b ")
-    List<BoardSummaryDto> findAllBoardSummaries();
+//    List<Board> findAll();
 
     Optional<Board> findByStudy_Id(Long studyId);
 

@@ -1,13 +1,18 @@
 package hamsung.hamsung_project.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import hamsung.hamsung_project.dto.RecruitsRequestsDto;
+import hamsung.hamsung_project.dto.StudyDto;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.math.BigInteger;
 import java.time.LocalDate;
-import java.util.Date;
+import java.time.LocalDateTime;
 
+@Builder
 @Setter
 @Getter
 @Entity //테이블 생성
@@ -23,11 +28,14 @@ public class Board {
     @Column(name="title",nullable=false)
     private String title;
 
-    @Column(name="user_id")
-    private Long userId;
-
     @ManyToOne
+    @JoinColumn(name="user_id")
+    private User users;
+
+
     @JoinColumn(name="study_id")
+    @JsonBackReference
+    @OneToOne(cascade = CascadeType.ALL)
     private Study study;
 
     @Column(name="description")
@@ -40,34 +48,54 @@ public class Board {
     private String place;
 
     @Column(name="capacity")
-    private BigInteger capacity;
+    private Integer capacity;
 
     @Column(name="isRecruit")
     private Boolean isRecruit;
 
+    @Builder.Default()
     @Column(name="view")
-    private long view;
-
-    @Column(name="start_date")
-    private LocalDate startDate;
-
-    @Column(name="end_date")
-    private LocalDate endDate;
+    @ColumnDefault("0")
+    private Integer view=0;
 
     @Column(name="comments")
     private BigInteger comments;
 
-    @Column(name="created_at")
+    @CreationTimestamp
+    @Column(name="created_at",updatable = false)
     private LocalDate createdAt;
 
 
-    //dto->엔티티
-    public static Board createRecruit(RecruitsRequestsDto requestDto){
-        //user_id,study_id는 매핑으로
-        return new Board(null, requestDto.getTitle(), null,null,requestDto.getDescription(),
-                requestDto.getCategory(), requestDto.getPlace(),requestDto.getCapacity(),
-                requestDto.getIsRecruit(),requestDto.getView(),requestDto.getStartDate(),requestDto.getEndDate(),null,null);
+//    //dto->엔티티
+//    public static Board createRecruit(RecruitsRequestsDto requestDto,User user){
+//        //comments,createdAt 해결해야.
+//        return new Board(null, requestDto.getTitle(),user,null,requestDto.getDescription(),
+//                requestDto.getCategory(), requestDto.getPlace(),requestDto.getCapacity(),
+//                requestDto.getIsRecruit(),requestDto.getView(),null,null);
+//    }
+
+    public static Board createRecruit(RecruitsRequestsDto requestDto, User user) {
+        Board recruit = new Board();
+        recruit.setTitle(requestDto.getTitle());
+        recruit.setUsers(user);
+        recruit.setDescription(requestDto.getDescription());
+        recruit.setCategory(requestDto.getCategory());
+        recruit.setPlace(requestDto.getPlace());
+        recruit.setCapacity(requestDto.getCapacity());
+        recruit.setIsRecruit(requestDto.getIsRecruit());
+        recruit.setView(requestDto.getView());
+        // createdAt 등 필요한 설정 추가 가능
+        return recruit;
     }
+
+    public static Board createRecruitWithStudy(Board board,Study study){
+        return new Board(board.getId(),board.getTitle(),board.getUsers(),study,board.getDescription(),
+                board.getCategory(),board.getPlace(),board.getCapacity(),board.getIsRecruit(),board.getView()
+                ,board.getComments(),board.getCreatedAt());
+    }
+
+
+
 
 
 }

@@ -5,6 +5,7 @@ import hamsung.hamsung_project.dto.RecruitsRequestsDto;
 import hamsung.hamsung_project.dto.StudyDto;
 import hamsung.hamsung_project.entity.Board;
 import hamsung.hamsung_project.entity.Study;
+import hamsung.hamsung_project.repository.RecruitsRepository;
 import hamsung.hamsung_project.entity.StudyMember;
 import hamsung.hamsung_project.repository.RecruitsRepository;
 import hamsung.hamsung_project.repository.StudyMemberRepository;
@@ -25,6 +26,7 @@ public class StudyService {
     StudyMemberRepository studyMemberRepository;
     @Autowired
     RecruitsRepository recruitsRepository;
+
 
 
     //스터디 생성
