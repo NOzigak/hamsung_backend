@@ -39,4 +39,5 @@ public class User {
     @JsonManagedReference //순환참조 방지 (부모쪽)
     private Review review;
 
+
 }
