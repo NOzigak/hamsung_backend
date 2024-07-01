@@ -36,6 +36,12 @@ public class ReviewService {
                 updateActions.get(key).accept(review);
             }
         });
+
+        int positive=review.getNoLate()+review.getFaithful()+review.getKind()+review.getFastAnswer();
+        int negative=review.getUnkind()+review.getSlowAnswer()+review.getPassive()+review.getAbsent();
+        int score=positive-negative;
+
+        review.setPoint(score);
         reviewRepository.save(review);
         return true;
     }

@@ -1,5 +1,6 @@
 package hamsung.hamsung_project.service;
 
+import hamsung.hamsung_project.dto.ApplyingSummaryDto;
 import hamsung.hamsung_project.dto.ApplyingDto;
 import hamsung.hamsung_project.dto.ApplyingSummaryDto;
 import hamsung.hamsung_project.dto.StudyMemberDto;

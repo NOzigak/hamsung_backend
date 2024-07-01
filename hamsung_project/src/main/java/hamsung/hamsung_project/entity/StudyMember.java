@@ -21,10 +21,9 @@ public class StudyMember {
     private String role="member";
 
     @Column(name="approval")
-    @ColumnDefault("0")
     //false-승인대기중, true-승인완료
     //leader는 default가 true로.
-    private boolean approval=false;
+    private Boolean approval=false;
 
     @ManyToOne
     @JoinColumn(name="user_id")
@@ -33,6 +32,7 @@ public class StudyMember {
     @ManyToOne
     @JoinColumn(name="study_id")
     private Study study;
+
 
 }
 

@@ -26,8 +26,9 @@ public class Board {
     @Column(name="user_id")
     private Long userId;
 
-    @Column(name="study_id")
-    private Long studyId;
+    @ManyToOne
+    @JoinColumn(name="study_id")
+    private Study study;
 
     @Column(name="description")
     private String description;
