@@ -15,7 +15,11 @@ import java.util.List;
 @RestController
 public class StudyController {
     @Autowired
-    private StudyService studyService;
+    private final StudyService studyService;
+
+    public StudyController(StudyService studyService) {
+        this.studyService = studyService;
+    }
 
     @PatchMapping("/study/{id}/end")
     public ResponseEntity<ResultDto<String>> endStudy(@PathVariable Long id){

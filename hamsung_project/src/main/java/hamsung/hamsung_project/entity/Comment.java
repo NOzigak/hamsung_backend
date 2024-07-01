@@ -30,9 +30,9 @@ public class Comment {
     @OneToMany(mappedBy = "comment", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<ChildComment> childs = new ArrayList<>();
 
-//    @ManyToOne
-//    @JoinColumn(name ="recruit_id")
-    private Long recruitId; //스터디 모집글
+    @ManyToOne
+    @JoinColumn(name ="recruit_id")
+    private Recruit recruit; //스터디 모집글
 
     public static Comment createComment(Long id, String text, String createdDate, String modifiedDate) {
         return Comment.builder()
