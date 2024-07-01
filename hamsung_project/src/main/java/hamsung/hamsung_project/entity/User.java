@@ -43,5 +43,10 @@ public class User {
     private Review review;
 
     @OneToMany(mappedBy = "users")
-    private List<StudyMember> studyMembers;
+    private List<StudyMember> studyMember;
+
+    @OneToMany(mappedBy = "user")
+    private List<Comment> comments;
+
+
 }

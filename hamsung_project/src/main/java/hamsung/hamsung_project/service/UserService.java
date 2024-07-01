@@ -19,11 +19,13 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final ReviewRepository reviewRepository;
 
 
-    public UserService(UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
+    public UserService(UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder, ReviewRepository reviewRepository) {
         this.userRepository = userRepository;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+        this.reviewRepository = reviewRepository;
     }
 
     public Long joinUser(UserRequestDTO userDTO){
@@ -40,6 +42,24 @@ public class UserService {
         User data = userDTO.toEntity();
 
         userRepository.save(data);
+
+        Review review=new Review();
+        review.setNoLate(0);
+        review.setFaithful(0);
+        review.setKind(0);
+        review.setUnkind(0);
+        review.setFastAnswer(0);
+        review.setSlowAnswer(0);
+        review.setPassive(0);
+        review.setAbsent(0);
+
+        review.setUser(data); //연관 관계의 주인이 세팅해주어야 db에 외래키가 null값이 아닌 원하는 값이 저장됨
+
+        reviewRepository.save(review);
+        data.setReview(review);
+
+        userRepository.save(data);
+
         return data.getId();
     }
 

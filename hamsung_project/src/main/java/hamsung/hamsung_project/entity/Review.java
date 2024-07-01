@@ -16,34 +16,35 @@ public class Review {
     private Long id;
 
     @Column(name="no_late", nullable=false)
-    private Long noLate;
+    private int noLate;
 
     @Column(name="faithful", nullable=false)
-    private Long faithful;
+    private int faithful;
 
     @Column(name="kind", nullable=false)
-    private Long kind;
+    private int kind;
 
     @Column(name="unkind", nullable=false)
-    private Long unkind;
+    private int unkind;
 
     @Column(name="fast_answer", nullable=false)
-    private Long fastAnswer;
+    private int fastAnswer;
 
     @Column(name="slow_answer", nullable=false)
-    private Long slowAnswer;
+    private int slowAnswer;
 
     @Column(name="passive", nullable=false)
-    private Long passive;
+    private int passive;
 
     @Column(name="absent", nullable=false)
-    private Long absent;
+    private int absent;
 
     @OneToOne
     @JoinColumn(name="user_id")
     @JsonBackReference //순환참조 방지(자식쪽)
     private User user;
 
+    @Column(name="point")
     private int point;
 
 }

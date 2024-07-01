@@ -1,100 +1,52 @@
 package hamsung.hamsung_project.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.math.BigInteger;
-import java.util.Date;
+import java.time.LocalDate;
 
 @Getter
+@Setter
+//@NoArgsConstructor
+@AllArgsConstructor
 public class RecruitsRequestsDto {
 
     private Long id;
-    private BigInteger user_id;
-    private BigInteger study_id;
+    @JsonProperty("user_id")
+    private Long userId;
+    //    @JsonProperty("study_id")
+//    private Long study_id;
     private String title;
     private String description;
     private String category;
     private String place;
     private BigInteger capacity;
     private Boolean isRecruit;
-    private BigInteger view;
-    private Date startDate;
-    private Date endDate;
+    private Long view; //response로 가야할듯?
+    private LocalDate startDate;
+    private LocalDate endDate;
+
+//    //?
+//    public Board toEntity(){
+//        Board board=new Board();
+//        board.setId(this.id);
+//        board.setUser_id(this.user_id);
+////        board.setStudy_id(this.study_id);
+//        board.setTitle(this.title);
+//        board.setDescription(this.description);
+//        board.setCategory(this.category);
+//        board.setPlace(this.place);
+//        board.setView(this.view);
+//        board.setStartDate(this.start_date);
+//        board.setEndDate(this.end_date);
+//
+//        return board;
 
 
-    public Long getRecruitsId() {
-        return id;
-    }
 
-    public BigInteger getUserId() {
-        return user_id;
-    }
-
-    public BigInteger getStudyId() {
-        return study_id;
-    }
 }
 
-//    public RecruitsRequestsDto(Board entity){
-//        this.recruit_id=entity.getRecruitsId();
-//        this.title=entity.getTitle();
-//        this.user_id=entity.getUserId();
-////        this.study_id=entity.getStudyId();
-//        this.description=entity.getDescription();
-//        this.category=entity.getCategory();
-//        this.place=entity.getPlace();
-//        this.capacity=entity.getCapacity();
-//        this.isRecruit=entity.getIsRecruit();
-//        this.view=entity.getView();
-//        this.startDate=entity.getStartDate();
-//        this.endDate=entity.getEndDate();
-//    }
-//
-//    public BigInteger getRecruitsId() {
-//        return recruit_id;
-//    }
-//
-//    public String getTitle() {
-//        return title;
-//    }
-//
-//    public BigInteger getUserId() {
-//        return user_id;
-//    }
-//
-//    public BigInteger getStudyId() {
-//        return study_id;
-//    }
-//
-//    public String getDescription() {
-//        return description;
-//    }
-//
-//    public String getCategory() {
-//        return category;
-//    }
-//
-//    public String getPlace() {
-//        return place;
-//    }
-//
-//    public Boolean getIsRecruit() {
-//        return isRecruit;
-//    }
-//
-//    public BigInteger getView() {
-//        return view;
-//    }
-//
-//    public BigInteger getCapacity() {
-//        return capacity;
-//    }
-//
-//    public Date getStartDate() {
-//        return startDate;
-//    }
-//
-//    public Date getEndDate() {
-//        return endDate;
-//    }
 
