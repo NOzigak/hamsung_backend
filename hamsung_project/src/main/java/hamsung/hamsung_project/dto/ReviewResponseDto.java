@@ -8,21 +8,21 @@ import lombok.Data;
 @Builder
 public class ReviewResponseDto {
 
-    private Long noLate;
+    private int noLate;
 
-    private Long faithful;
+    private int faithful;
 
-    private Long kind;
+    private int kind;
 
-    private Long unkind;
+    private int unkind;
 
-    private Long fastAnswer;
+    private int fastAnswer;
 
-    private Long slowAnswer;
+    private int slowAnswer;
 
-    private Long passive;
+    private int passive;
 
-    private Long absent;
+    private int absent;
 
     private int point;
 
