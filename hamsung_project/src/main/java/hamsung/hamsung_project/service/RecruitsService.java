@@ -26,7 +26,7 @@ public class RecruitsService {
     @Autowired
     private final RecruitsRepository recruitsRepository; //final
     private final StudyRepository studyRepository;
-    //    private final ReviewRepository reviewRepository;
+//        private final ReviewRepository reviewRepository;
     private final StudyMemberRepository studyMemberRepository;
     private final StudyMemberService studyMemberService;
     //게시글 생성 //스터디 생성도 해줘야.

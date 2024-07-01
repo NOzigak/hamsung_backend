@@ -25,6 +25,7 @@ public class StudyMemberService {
 
     @Autowired
     private final StudyMemberRepository studyMemberRepository;
+    static ReviewRepository reviewRepository;
     @Autowired
     private final StudyRepository studyRepository;
     @Autowired
