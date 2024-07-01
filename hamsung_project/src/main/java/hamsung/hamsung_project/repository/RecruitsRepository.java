@@ -3,7 +3,6 @@ package hamsung.hamsung_project.repository;
 import hamsung.hamsung_project.dto.BoardSummaryDto;
 import hamsung.hamsung_project.entity.Board;
 import jakarta.transaction.Transactional;
-import lombok.Getter;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

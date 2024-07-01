@@ -3,7 +3,6 @@ package hamsung.hamsung_project.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import hamsung.hamsung_project.entity.Board;
 import hamsung.hamsung_project.entity.Study;
-import hamsung.hamsung_project.entity.StudyMember;
 import lombok.*;
 
 import java.time.LocalDate;

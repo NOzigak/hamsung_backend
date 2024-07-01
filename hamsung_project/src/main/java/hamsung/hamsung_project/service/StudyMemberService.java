@@ -2,7 +2,6 @@ package hamsung.hamsung_project.service;
 
 import hamsung.hamsung_project.dto.ApplyingSummaryDto;
 import hamsung.hamsung_project.dto.ApplyingDto;
-import hamsung.hamsung_project.dto.ApplyingSummaryDto;
 import hamsung.hamsung_project.dto.StudyMemberDto;
 import hamsung.hamsung_project.entity.Study;
 import hamsung.hamsung_project.entity.StudyMember;
@@ -14,7 +13,6 @@ import hamsung.hamsung_project.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

@@ -1,16 +1,12 @@
 package hamsung.hamsung_project.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import hamsung.hamsung_project.entity.Board;
-import hamsung.hamsung_project.entity.Study;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigInteger;
 import java.time.LocalDate;
-import java.util.Date;
 
 @Getter
 @Setter

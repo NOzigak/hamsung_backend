@@ -7,6 +7,8 @@ import jakarta.persistence.Id;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Date;
+
 @Entity
 @Getter
 @Setter
@@ -19,6 +21,8 @@ public class RefreshToken {
     private Long user_id;
 
     private String username;
+
     private String refresh;
-    private String expiration;
+
+    private Date expiration;
 }
