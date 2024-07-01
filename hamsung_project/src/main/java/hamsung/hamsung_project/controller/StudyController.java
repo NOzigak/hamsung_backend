@@ -1,5 +1,6 @@
 package hamsung.hamsung_project.controller;
 
+import hamsung.hamsung_project.dto.MyStudyDto;
 import hamsung.hamsung_project.dto.ResultDto;
 import hamsung.hamsung_project.dto.StudyDto;
 import hamsung.hamsung_project.entity.Study;
@@ -52,24 +53,13 @@ public class StudyController {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ResultDto.res(HttpStatus.BAD_REQUEST.toString(), "스터디 삭제에 실패하였습니다."));
     }
 
-    /*
->>>>>>> Stashed changes
+
     @GetMapping("/study/myStudy/{userId}")
     public ResponseEntity<?> showMyStudy(@PathVariable Long userId){
-
-        List<StudyMember> members=studyMemberService.showStudyMembers(userId);
-        List<StudyDto> target=StudyService.showMyStudy(members);
+        List<MyStudyDto> target=studyService.showMyStudy(userId);
         if(target==null){
-            return ResponseEntity.status(HttpStatus.OK).body(ResultDto.res(HttpStatus.OK.toString(),"현재 들어가 있는 스터디가 없습니다"));
+            return ResponseEntity.status(HttpStatus.OK).body(ResultDto.res(HttpStatus.OK.toString(),"현재 가입한 스터디가 없습니다"));
         }
         return ResponseEntity.status(HttpStatus.OK).body(target);
-<<<<<<< Updated upstream
     }
-
-
-
-    }*/
-
-
-
 }

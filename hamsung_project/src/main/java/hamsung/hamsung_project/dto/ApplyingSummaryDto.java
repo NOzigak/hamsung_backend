@@ -20,7 +20,7 @@ public class ApplyingSummaryDto {
     private Review review;
 
 
-//    // summaryMember 메서드
+    //    // summaryMember 메서드
 //    public static List<ApplyingSummaryDto> summaryMembers(StudyMemberDto dto) {
 //        return List<ApplyingSummaryDto>(dto.getUser().getId(), dto.getUser().getUsername(), dto.getReview());
 //    }

@@ -44,16 +44,16 @@ public class UserService {
         userRepository.save(data);
 
         Review review=new Review();
-        review.setNoLate(0L);
-        review.setFaithful(0L);
-        review.setKind(0L);
-        review.setUnkind(0L);
-        review.setFastAnswer(0L);
-        review.setSlowAnswer(0L);
-        review.setPassive(0L);
-        review.setAbsent(0L);
+        review.setNoLate(0);
+        review.setFaithful(0);
+        review.setKind(0);
+        review.setUnkind(0);
+        review.setFastAnswer(0);
+        review.setSlowAnswer(0);
+        review.setPassive(0);
+        review.setAbsent(0);
 
-        review.setUser(data);
+        review.setUser(data); //연관 관계의 주인이 세팅해주어야 db에 외래키가 null값이 아닌 원하는 값이 저장됨
 
         reviewRepository.save(review);
         data.setReview(review);

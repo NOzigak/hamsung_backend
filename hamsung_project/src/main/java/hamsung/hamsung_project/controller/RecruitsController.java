@@ -22,8 +22,8 @@ public class RecruitsController {
 
     //게시글 작성 (완료)
     @PostMapping("/recruits")
-    public ResponseEntity<RecruitsResponseDto> createRecruit(@RequestBody RecruitsRequestsDto requestsDto) {
-        RecruitsResponseDto createdDTO = recruitsService.createRecruit(requestsDto);
+    public ResponseEntity<RecruitsResponseDto> createRecruit(@RequestBody RecruitsRequestsDto requestsDto){
+        RecruitsResponseDto createdDTO=recruitsService.createRecruit(requestsDto);
         studyService.createStudy(requestsDto);
         return ResponseEntity.status(HttpStatus.OK).body(createdDTO);
     }
@@ -110,7 +110,7 @@ public class RecruitsController {
         } else {
             return ResponseEntity.status(HttpStatus.OK).body(ResultDto.res(HttpStatus.OK.toString(), "스터디를 모집중 상태로 변경합니다(모집완료->모집중)"));
         }
-
-
     }
+
+
 }
