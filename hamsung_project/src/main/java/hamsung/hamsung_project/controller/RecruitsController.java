@@ -1,7 +1,7 @@
 package hamsung.hamsung_project.controller;
 
 import hamsung.hamsung_project.dto.*;
-import hamsung.hamsung_project.entity.Board;
+import hamsung.hamsung_project.entity.Recruit;
 import hamsung.hamsung_project.entity.Study;
 import hamsung.hamsung_project.service.RecruitsService;
 import hamsung.hamsung_project.service.StudyMemberService;
@@ -26,17 +26,17 @@ public class RecruitsController {
     //게시글 작성 (완료)
     @PostMapping("/recruits")
     public ResponseEntity<RecruitsResponseDto> createRecruit(@RequestBody RecruitsRequestsDto requestsDto) {
-        Board board=recruitsService.createRecruit(requestsDto);
+        Recruit recruit =recruitsService.createRecruit(requestsDto);
         Study study=Study.createStudyEntity(requestsDto);//studyDto->entity
-        RecruitsResponseDto completeRecruitsDto=recruitsService.createRecruitWithStudy(board,study);
+        RecruitsResponseDto completeRecruitsDto=recruitsService.createRecruitWithStudy(recruit,study);
         return ResponseEntity.status(HttpStatus.OK).body(completeRecruitsDto);
     }
 
     //게시물 전체 목록 조회
     @GetMapping("/recruits")
-    public ResponseEntity<List<BoardSummaryDto>> showAllRecruits() {
-        List<BoardSummaryDto> boardList = recruitsService.showAllRecruits();
-        return ResponseEntity.status(HttpStatus.OK).body(boardList);
+    public ResponseEntity<List<RecruitSummaryDto>> showAllRecruits() {
+        List<RecruitSummaryDto> recruitList = recruitsService.showAllRecruits();
+        return ResponseEntity.status(HttpStatus.OK).body(recruitList);
     }
 
     //스터디 모집글 수정-에러 500뜸.. 아직...

@@ -20,7 +20,8 @@ public interface StudyMemberRepository extends JpaRepository<StudyMember,Long> {
 //            "from StudyMember s where s.study.id = :study_id")
 //    List<StudyMemberDto> findByStudyMember_StudyId(@Param("study_id") Long study_id);
     List<StudyMember> findByStudy_id(Long study_id);
-    Optional<StudyMember> findByUsersId(Long user_id);
+    List<StudyMember> findByUsers_Id(Long user_id);
+    Optional<StudyMember> findByUsersId(Long userss_id);
 }
 
 

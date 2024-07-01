@@ -2,7 +2,6 @@ package hamsung.hamsung_project.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import hamsung.hamsung_project.dto.RecruitsRequestsDto;
-import hamsung.hamsung_project.dto.StudyDto;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
@@ -19,7 +18,7 @@ import java.time.LocalDateTime;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class Board {
+public class Recruit {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
@@ -65,6 +64,14 @@ public class Board {
     @Column(name="created_at",updatable = false)
     private LocalDate createdAt;
 
+    @PrePersist
+    protected void onCreate() {
+        if (view == null) {
+            view = 0;
+        }
+        createdAt = LocalDate.now();
+    }
+
 
 //    //dto->엔티티
 //    public static Board createRecruit(RecruitsRequestsDto requestDto,User user){
@@ -74,8 +81,8 @@ public class Board {
 //                requestDto.getIsRecruit(),requestDto.getView(),null,null);
 //    }
 
-    public static Board createRecruit(RecruitsRequestsDto requestDto, User user) {
-        Board recruit = new Board();
+    public static Recruit createRecruit(RecruitsRequestsDto requestDto, User user) {
+        Recruit recruit = new Recruit();
         recruit.setTitle(requestDto.getTitle());
         recruit.setUsers(user);
         recruit.setDescription(requestDto.getDescription());
@@ -88,10 +95,10 @@ public class Board {
         return recruit;
     }
 
-    public static Board createRecruitWithStudy(Board board,Study study){
-        return new Board(board.getId(),board.getTitle(),board.getUsers(),study,board.getDescription(),
-                board.getCategory(),board.getPlace(),board.getCapacity(),board.getIsRecruit(),board.getView()
-                ,board.getComments(),board.getCreatedAt());
+    public static Recruit createRecruitWithStudy(Recruit recruit, Study study){
+        return new Recruit(recruit.getId(), recruit.getTitle(), recruit.getUsers(),study, recruit.getDescription(),
+                recruit.getCategory(), recruit.getPlace(), recruit.getCapacity(), recruit.getIsRecruit(), recruit.getView()
+                , recruit.getComments(), recruit.getCreatedAt());
     }
 
 

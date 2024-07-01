@@ -1,15 +1,12 @@
 package hamsung.hamsung_project.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import hamsung.hamsung_project.entity.Board;
-import hamsung.hamsung_project.entity.Study;
-import hamsung.hamsung_project.entity.User;
+import hamsung.hamsung_project.entity.Recruit;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.math.BigInteger;
 import java.time.LocalDate;
-import java.util.Date;
 
 @Getter
 @Setter
@@ -39,9 +36,9 @@ public class RecruitsResponseDto {
 
 
     //entity->dto
-    public static RecruitsResponseDto createRecruitsDTO(Board board) {
-        return new RecruitsResponseDto(board.getId(),board.getUsers().getId(),board.getStudy().getId(), board.getTitle(),board.getDescription(),board.getCategory()
-                ,board.getCapacity(),board.getPlace(), board.getView(),board.getComments(),board.getCreatedAt());
+    public static RecruitsResponseDto createRecruitsDTO(Recruit recruit) {
+        return new RecruitsResponseDto(recruit.getId(), recruit.getUsers().getId(), recruit.getStudy().getId(), recruit.getTitle(), recruit.getDescription(), recruit.getCategory()
+                , recruit.getCapacity(), recruit.getPlace(), recruit.getView(), recruit.getComments(), recruit.getCreatedAt());
     }
 
 

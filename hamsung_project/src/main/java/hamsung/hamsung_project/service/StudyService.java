@@ -3,11 +3,10 @@ package hamsung.hamsung_project.service;
 import hamsung.hamsung_project.dto.MyStudyDto;
 import hamsung.hamsung_project.dto.RecruitsRequestsDto;
 import hamsung.hamsung_project.dto.StudyDto;
-import hamsung.hamsung_project.entity.Board;
+import hamsung.hamsung_project.entity.Recruit;
 import hamsung.hamsung_project.entity.Study;
 import hamsung.hamsung_project.repository.RecruitsRepository;
 import hamsung.hamsung_project.entity.StudyMember;
-import hamsung.hamsung_project.repository.RecruitsRepository;
 import hamsung.hamsung_project.repository.StudyMemberRepository;
 import hamsung.hamsung_project.repository.StudyRepository;
 import jakarta.transaction.Transactional;
@@ -105,9 +104,9 @@ public class StudyService {
         List<MyStudyDto> studyDtoList=new ArrayList<>();
         for(Long studyId:studyIdList){
             Study target=studyRepository.findById(studyId).orElse(null);
-            Board board=recruitsRepository.findByStudy_Id(studyId).orElse(null);
-            if(target!=null&&board!=null){
-                studyDtoList.add(MyStudyDto.createMyStudyDto(target, userId, board));
+            Recruit recruit =recruitsRepository.findByStudy_Id(studyId).orElse(null);
+            if(target!=null&& recruit !=null){
+                studyDtoList.add(MyStudyDto.createMyStudyDto(target, userId, recruit));
             }
             else if(target==null){
                 throw new IllegalArgumentException("해당 id의 스터디가 존재하지 않습니다.");
