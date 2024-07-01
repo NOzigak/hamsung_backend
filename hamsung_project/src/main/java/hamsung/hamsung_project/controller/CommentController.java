@@ -83,10 +83,9 @@ public class CommentController {
     * 임시로 모든 댓글 응답을 JSON으로 보기 위해 만듦
     * */
     // 임시 모집글 관련 모든 댓글, 대댓글 불러오는 컨트롤러
-    @GetMapping("tmp/r/{recruit_id}")
+    @GetMapping("/comments/recruits/{recruit_id}")
     public ResponseEntity<List<CommentResponseDto>> showAllComment(@PathVariable Long recruit_id){
         List<Comment> comments = commentService.findByCommentAllId(recruit_id);
-        System.out.println(comments.size());
         List<CommentResponseDto> commentsList = new ArrayList<>();
         for(Comment c: comments){
             commentsList.add(CommentResponseDto.of(c));

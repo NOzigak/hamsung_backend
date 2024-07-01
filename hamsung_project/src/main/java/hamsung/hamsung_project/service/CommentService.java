@@ -163,6 +163,9 @@ public class CommentService {
      * */
     // 임시로 만든 모집글의 모든 comment 조회하는 서비스 로직
     public List<Comment> findByCommentAllId(Long recruit_id){
+        if(!recruitsRepository.findById(recruit_id).isPresent())
+            throw new InvalidDataException("Invalid RecruitId");
+
         return commentRepository.findAllByRecruitId(recruit_id);
     }
 
