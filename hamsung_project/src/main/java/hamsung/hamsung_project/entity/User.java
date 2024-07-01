@@ -42,7 +42,6 @@ public class User {
     @JsonManagedReference //순환참조 방지 (부모쪽)
     private Review review;
 
-//    @OneToMany(mappedBy = "user")
-//    private List<StudyMember> studyMembers;
-
+    @OneToMany(mappedBy = "users")
+    private List<StudyMember> studyMembers;
 }

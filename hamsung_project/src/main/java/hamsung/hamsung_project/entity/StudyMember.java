@@ -32,7 +32,7 @@ public class StudyMember {
     @JoinColumn(name="user_id")
     @JsonIgnoreProperties({"user_id"})
 //    @JsonManagedReference
-    private User user;
+    private User users;
 
     @ManyToOne
     @JoinColumn(name="study_id")
