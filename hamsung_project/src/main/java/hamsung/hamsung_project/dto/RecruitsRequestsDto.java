@@ -1,6 +1,9 @@
 package hamsung.hamsung_project.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import hamsung.hamsung_project.entity.Post;
+import hamsung.hamsung_project.entity.Recruit;
+import hamsung.hamsung_project.entity.Study;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -21,6 +24,8 @@ public class RecruitsRequestsDto {
     private Integer capacity;
     private Boolean isRecruit;
     private Integer view;
+
+
 
 
 

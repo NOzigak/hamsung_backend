@@ -1,10 +1,7 @@
 package hamsung.hamsung_project.service;
 
 import hamsung.hamsung_project.dto.*;
-import hamsung.hamsung_project.entity.Recruit;
-import hamsung.hamsung_project.entity.Study;
-import hamsung.hamsung_project.entity.StudyMember;
-import hamsung.hamsung_project.entity.User;
+import hamsung.hamsung_project.entity.*;
 import hamsung.hamsung_project.repository.*;
 import hamsung.hamsung_project.repository.RecruitsRepository;
 import hamsung.hamsung_project.repository.StudyMemberRepository;
@@ -14,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,7 +27,9 @@ public class RecruitsService {
     private final StudyMemberRepository studyMemberRepository;
     private final UserRepository userRepository;
     private final StudyMemberService studyMemberService;
-    //게시글 생성 //스터디 생성도 해줘야.
+    private final CommentRepository commentRepository;
+
+    //게시글 생성 //스터디 생성
     @Transactional
     public Recruit createRecruit(RecruitsRequestsDto dto){
         //엔티티 생성
@@ -44,18 +44,17 @@ public class RecruitsService {
         recruit.setStudy(study);
         //엔티티->데이터베이스에 저장
         recruitsRepository.save(recruit);
+
+        StudyMember member=new StudyMember();
+        member.setStudy(study);
+        member.setRole("leader");
+        member.setApproval(true);
+        member.setUsers(user);
+        studyMemberRepository.save(member);
+
         return recruit;
     }
 
-
-
-    @Transactional
-    public RecruitsResponseDto createRecruitWithStudy(Recruit recruit, Study study){
-        recruit.setStudy(study);
-        recruitsRepository.save(recruit);
-       return RecruitsResponseDto.createRecruitsDTO(recruit);
-
-    }
 
     //게시글 상세 조회
     @Transactional
@@ -88,25 +87,33 @@ public class RecruitsService {
     @Transactional
     public RecruitsResponseDto updateRecruits(Long id,RecruitsRequestsDto requestsDto) {
         Recruit target=recruitsRepository.findById(id).orElseThrow(()-> new IllegalArgumentException("대상 게시글이 없습니다."));
-        Study study=studyRepository.findById(target.getId()).orElseThrow(()-> new IllegalArgumentException("대상 스터디가 없습니다."));
+        Study study=studyRepository.findById(target.getStudy().getId()).orElseThrow(()-> new IllegalArgumentException("대상 스터디가 없습니다."));
         User user = userRepository.findById(requestsDto.getUser_id())
                 .orElseThrow(() -> new IllegalArgumentException("User not found for id: " + requestsDto.getUser_id()));
-        Recruit updatedRecruits= Recruit.createRecruit(requestsDto,user);
-        Recruit findRecruit = recruitsRepository.findById(updatedRecruits.getId()).orElseThrow(
-                () -> new IllegalArgumentException("해당 게시글이 존재하지 않습니다.")
-        );
-        if(findRecruit !=null)
-            recruitsRepository.save(updatedRecruits);
-        return RecruitsResponseDto.createRecruitsDTO(updatedRecruits);
+//        //수정하기 버튼 보이게 하는 로직
+//        if(requestsDto.getUser_id()!= user.getId()){
+//
+//        }
+        Recruit updatedTarget=Recruit.updateRecruit(requestsDto,target);
+        recruitsRepository.save(updatedTarget);
+        Study updatedStudy=Study.updateStudy(requestsDto,study);
+        studyRepository.save(updatedStudy);
+        return RecruitsResponseDto.createRecruitsDTO(target);
     }
 
 
     //게시글 삭제-완료
     @Transactional
-    public boolean deletePost(Long id){
+    public boolean deleteRecruit(Long id){
         Recruit target=recruitsRepository.findById(id).orElseThrow(()->new IllegalArgumentException("해당 게시글을 찾을 수 없습니다."));
-        recruitsRepository.delete(target);
-        return true;
+        if (recruitsRepository.existsById(id)) {
+//            List<Comment> comment=commentRepository.findAllByRecruitId(id);
+//            commentRepository.deleteById(id);
+            recruitsRepository.deleteById(id);
+            return true;
+        } else {
+            return false;
+        }
     }
 
     //스터디 모집 상태 변경(버튼 클릭?)
@@ -120,19 +127,25 @@ public class RecruitsService {
             target.setIsRecruit(false);
         }
         recruitsRepository.save(target);
-
+        target.getStudy().setStartDate(LocalDate.now());
         return target.getIsRecruit();
     }
 
     //스터디 지원하기 , user, review 가져오기.
     @Transactional
-    public boolean applyStudy(Long id, ApplyingDto applyingDto){
-        Study target=studyRepository.findById(id).orElseThrow(()->new IllegalArgumentException("해당 스터디를 찾을 수 없습니다."));
-        //user,review 추가
-        StudyMember studyMember=studyMemberService.createStudyMember(applyingDto);
-        studyMemberRepository.save(studyMember);
-        return true; //유효한지 true, false 수정해줘야..
+    public boolean applyStudy(Long id, ApplyingDto applyingDto) {
+        try {
+            Study target = studyRepository.findById(id)
+                    .orElseThrow(() -> new IllegalArgumentException("해당 스터디를 찾을 수 없습니다."));
+
+            // user, review 추가
+            StudyMember studyMember = studyMemberService.createStudyMember(applyingDto);
+            studyMemberRepository.save(studyMember);
+
+            return true; // 유효한지 true
+        } catch (Exception e) {
+            // 예외 발생 시 false 반환
+            return false;
+        }
     }
-
-
 }

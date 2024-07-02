@@ -27,28 +27,28 @@ public class RecruitsController {
     @PostMapping("/recruits")
     public ResponseEntity<RecruitsResponseDto> createRecruit(@RequestBody RecruitsRequestsDto requestsDto) {
         Recruit recruit =recruitsService.createRecruit(requestsDto);
+
         Study study=Study.createStudyEntity(requestsDto);//studyDto->entity
-        RecruitsResponseDto completeRecruitsDto=recruitsService.createRecruitWithStudy(recruit,study);
+        RecruitsResponseDto completeRecruitsDto=RecruitsResponseDto.createRecruitsDTO(recruit);
         return ResponseEntity.status(HttpStatus.OK).body(completeRecruitsDto);
     }
 
-    //게시물 전체 목록 조회
+    //게시물 전체 목록 조회(완료)
     @GetMapping("/recruits")
     public ResponseEntity<List<RecruitSummaryDto>> showAllRecruits() {
         List<RecruitSummaryDto> recruitList = recruitsService.showAllRecruits();
         return ResponseEntity.status(HttpStatus.OK).body(recruitList);
     }
 
-    //스터디 모집글 수정-에러 500뜸.. 아직...
+    //스터디 모집글 수정
     @PutMapping("/recruits/{id}")
-    public ResponseEntity<RecruitsResponseDto> updateRecruits(@PathVariable Long id, @RequestBody RecruitsRequestsDto requestsDto) {
+    public ResponseEntity<ResultDto<String>> updateRecruits(@PathVariable Long id, @RequestBody RecruitsRequestsDto requestsDto) {
         RecruitsResponseDto updatedRecruits = recruitsService.updateRecruits(id, requestsDto);
-        return ResponseEntity.status(HttpStatus.OK).body(updatedRecruits);
+        return ResponseEntity.status(HttpStatus.OK).body(ResultDto.res(HttpStatus.OK.toString(),"수정 완료하였습니다."));
     }
 
 
-    //스터디 모집상태 변경
-    //스터디 엔티티 안에
+    //스터디 모집상태 변경+스터디 startDate 설정(모집완료로변경시)+
     @PutMapping("recruits/{id}/isrecruit")
     public ResponseEntity<ResultDto<String>> changeStatus(@PathVariable Long id) {
         boolean isFinished = recruitsService.changeIsRecruit(id);
@@ -69,15 +69,16 @@ public class RecruitsController {
 
     //게시글 삭제 (완료)
     @DeleteMapping("recruits/{id}")
-    public ResponseEntity<ResultDto<String>> deletePost(@PathVariable Long id) {
-        boolean isDeleted = recruitsService.deletePost(id);
-        if (isDeleted)
+    public ResponseEntity<ResultDto<String>> deleteRecruit(@PathVariable Long id) {
+        boolean isDeleted = recruitsService.deleteRecruit(id);
+        if (isDeleted){
             return ResponseEntity.status(HttpStatus.OK).body(ResultDto.res(HttpStatus.OK.toString(), "게시글이 삭제되었습니다."));
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ResultDto.res(HttpStatus.BAD_REQUEST.toString(), "게시글 삭제에 실패하였습니다."));
+        }else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ResultDto.res(HttpStatus.BAD_REQUEST.toString(), "게시글 삭제에 실패하였습니다."));}
     }
 
 
-    //스터디 지원하기(postman test아직X , user 등록 후 다시 해보기)
+    //스터디 지원하기
     @PostMapping("recruits/{study_id}/members")
     public ResponseEntity<ResultDto<String>> applyStudy(@PathVariable Long study_id, @RequestBody ApplyingDto applyingDto) {
         boolean isApplied = recruitsService.applyStudy(study_id, applyingDto);
