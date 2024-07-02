@@ -4,10 +4,12 @@ import hamsung.hamsung_project.dto.ChildCommentRequestDto;
 import hamsung.hamsung_project.dto.CommentRequestDto;
 import hamsung.hamsung_project.entity.ChildComment;
 import hamsung.hamsung_project.entity.Comment;
+import hamsung.hamsung_project.entity.Recruit;
 import hamsung.hamsung_project.entity.User;
 import hamsung.hamsung_project.exception.InvalidDataException;
 import hamsung.hamsung_project.repository.ChildCommentRepository;
 import hamsung.hamsung_project.repository.CommentRepository;
+import hamsung.hamsung_project.repository.RecruitsRepository;
 import hamsung.hamsung_project.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
@@ -21,13 +23,14 @@ public class CommentService {
     private final CommentRepository commentRepository;
     private final ChildCommentRepository childCommentRepository;
     private final UserRepository userRepository;
+    private final RecruitsRepository recruitsRepository;
 //    private RecruitRepository recruitRepository;
 
-    public CommentService(CommentRepository commentRepository, ChildCommentRepository childCommentRepository, UserRepository userRepository) {
+    public CommentService(CommentRepository commentRepository, ChildCommentRepository childCommentRepository, UserRepository userRepository, RecruitsRepository recruitsRepository ) {
         this.commentRepository = commentRepository;
         this.childCommentRepository = childCommentRepository;
         this.userRepository = userRepository;
-        //this.recruitRepository = recruitRepository;
+        this.recruitsRepository = recruitsRepository;
     }
 
     // 댓글 생성
@@ -36,6 +39,8 @@ public class CommentService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new InvalidDataException("Invalid UserId"));
 
+        Recruit recruit = recruitsRepository.findById(recruitsId).get();
+
         // 텍스트가 비어있으면
         if(commentDto.getText().equals("")) {
             throw new InvalidDataException("Invalid Text");
@@ -43,7 +48,7 @@ public class CommentService {
 
         Comment comment = commentDto.toEntity();
         comment.setUser(user);
-        comment.setRecruitId(recruitsId); // 아직 미완
+        comment.setRecruit(recruit); // 아직 미완
         commentRepository.save(comment);
         return comment.getId();
     }
@@ -158,6 +163,9 @@ public class CommentService {
      * */
     // 임시로 만든 모집글의 모든 comment 조회하는 서비스 로직
     public List<Comment> findByCommentAllId(Long recruit_id){
+        if(!recruitsRepository.findById(recruit_id).isPresent())
+            throw new InvalidDataException("Invalid RecruitId");
+
         return commentRepository.findAllByRecruitId(recruit_id);
     }
 

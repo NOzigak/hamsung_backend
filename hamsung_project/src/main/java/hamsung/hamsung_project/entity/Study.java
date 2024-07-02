@@ -66,5 +66,12 @@ public class Study {
         );
     }
 
+    public static Study updateStudy(RecruitsRequestsDto dto,Study study){
+        study.setCategory(dto.getCategory());
+        study.setPlace(dto.getPlace());
+
+        return study;
+    }
+
 
 }

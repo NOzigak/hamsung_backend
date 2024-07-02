@@ -6,10 +6,12 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.Formula;
 
 import java.math.BigInteger;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Builder
 @Setter
@@ -57,12 +59,16 @@ public class Recruit {
     @ColumnDefault("0")
     private Integer view=0;
 
-    @Column(name="comments")
-    private BigInteger comments;
+//
+//    @Column
+//    @Formula("(SELECT COUNT(*) FROM comment c WHERE c.recruit_id = id)")
+//    private Integer commentCount;
+
 
     @CreationTimestamp
     @Column(name="created_at",updatable = false)
     private LocalDate createdAt;
+
 
     @PrePersist
     protected void onCreate() {
@@ -71,15 +77,6 @@ public class Recruit {
         }
         createdAt = LocalDate.now();
     }
-
-
-//    //dto->엔티티
-//    public static Board createRecruit(RecruitsRequestsDto requestDto,User user){
-//        //comments,createdAt 해결해야.
-//        return new Board(null, requestDto.getTitle(),user,null,requestDto.getDescription(),
-//                requestDto.getCategory(), requestDto.getPlace(),requestDto.getCapacity(),
-//                requestDto.getIsRecruit(),requestDto.getView(),null,null);
-//    }
 
     public static Recruit createRecruit(RecruitsRequestsDto requestDto, User user) {
         Recruit recruit = new Recruit();
@@ -95,12 +92,16 @@ public class Recruit {
         return recruit;
     }
 
-    public static Recruit createRecruitWithStudy(Recruit recruit, Study study){
-        return new Recruit(recruit.getId(), recruit.getTitle(), recruit.getUsers(),study, recruit.getDescription(),
-                recruit.getCategory(), recruit.getPlace(), recruit.getCapacity(), recruit.getIsRecruit(), recruit.getView()
-                , recruit.getComments(), recruit.getCreatedAt());
+    public static Recruit updateRecruit(RecruitsRequestsDto dto,Recruit target){
+        target.setTitle(dto.getTitle());
+        target.setDescription(dto.getDescription());
+        target.setCategory(dto.getCategory());
+        target.setPlace(dto.getPlace());
+        target.setCapacity(dto.getCapacity());
+        target.setIsRecruit(dto.getIsRecruit());
+        target.setView(dto.getView());
+        return target;
     }
-
 
 
 

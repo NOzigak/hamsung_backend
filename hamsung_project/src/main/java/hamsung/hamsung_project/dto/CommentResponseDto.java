@@ -39,7 +39,7 @@ public class CommentResponseDto {
         List<ChildCommentResponseDto> childs = new ArrayList<>();
         for (ChildComment c : comment.getChilds()) childs.add(ChildCommentResponseDto.of(c));
 
-        return new CommentResponseDto(comment.getId(), comment.getRecruitId(), comment.getUser().getUsername(), comment.getText(), comment.getModifiedDate(), childs);
+        return new CommentResponseDto(comment.getId(), comment.getRecruit().getId(), comment.getUser().getUsername(), comment.getText(), comment.getModifiedDate(), childs);
     }
 
 
