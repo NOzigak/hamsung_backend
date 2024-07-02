@@ -9,7 +9,6 @@ import java.util.List;
 
 public interface CommentRepository extends JpaRepository<Comment, Long> {
 
-
     /*
      * 임시로 모든 댓글 응답을 JSON으로 보기 위해 만듦
      * */
@@ -18,7 +17,5 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
 
 //    @Query("SELECT COUNT(c) FROM Comment c WHERE c.recruit.id = :recruitId")
 //    Integer countByRecruitId(@Param("recruitId") Long recruitId);
-
-
 
 }
