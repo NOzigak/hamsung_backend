@@ -148,6 +148,4 @@ public class RecruitsService {
             return false;
         }
     }
-
-
 }

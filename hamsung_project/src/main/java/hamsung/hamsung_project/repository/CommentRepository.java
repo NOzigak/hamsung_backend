@@ -15,5 +15,4 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
     // 임시 모집글 관련 모든 댓글, 대댓글 불러오는 컨트롤러
      List<Comment> findAllByRecruitId(Long recruit_id);
 
-//     List<Comment> findAllBy
 }
