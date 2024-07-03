@@ -34,7 +34,7 @@ public class CustomLogoutFilter extends GenericFilterBean {
 
         //path and method verify
         String requestUri = request.getRequestURI();
-        if (!requestUri.matches("^\\/logout$")) {
+        if (!requestUri.matches("^\\/logout$")) { //이스케이프 문자사용으로 /logout 과 같냐는 조건문
 
             filterChain.doFilter(request, response);
             return;
