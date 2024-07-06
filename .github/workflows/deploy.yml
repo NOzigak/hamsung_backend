@@ -89,6 +89,9 @@ jobs:
   dependency-submission:
     runs-on: ubuntu-latest
     needs: build
+    defaults:
+      run:
+        working-directory: ./hamsung_backend/hamsung_project
 
     permissions:
       contents: write
@@ -101,9 +104,6 @@ jobs:
       with:
         java-version: '17'
         distribution: 'temurin'
-
-    - name: Dependency Submission
-      uses: gradle/actions/dependency-submission@417ae3ccd767c252f5661f1ace9f835f9654f2b5/hamsung_project
       
   #챗지피티로대체1
   # dependency-submission:
