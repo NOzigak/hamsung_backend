@@ -102,15 +102,15 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
     # 추가한 내용 1 
-    - name: Setup Gradle
-      uses: gradle/actions/setup-gradle@417ae3ccd767c252f5661f1ace9f835f9654f2b5 # v3.1.0
+    # - name: Setup Gradle
+    #   uses: gradle/actions/setup-gradle@417ae3ccd767c252f5661f1ace9f835f9654f2b5 # v3.1.0
 
-    - name: Give Permission
-      run: chmod +x ./gradlew
+    # - name: Give Permission
+    #   run: chmod +x ./gradlew
 
-    - name: Build with Gradle
-      run: ./gradlew build
-    # 추가한 내용 2
+    # - name: Build with Gradle
+    #   run: ./gradlew build
+    # 추가한 내용 1
 
     # Generates and submits a dependency graph, enabling Dependabot Alerts for all project dependencies.
     # See: https://github.com/gradle/actions/blob/main/dependency-submission/README.md
