@@ -41,12 +41,14 @@ jobs:
     # See: https://github.com/gradle/actions/blob/main/setup-gradle/README.md
     - name: Setup Gradle
       uses: gradle/actions/setup-gradle@417ae3ccd767c252f5661f1ace9f835f9654f2b5 # v3.1.0
+      with:
+        gradle-wrapper-directory: hamsung_backend/hamsung_project
 
     - name: Give Permission
-      run: chmod +x ./gradlew
+      run: chmod +x ./hamsung_backend/hamsung_project/gradlew
 
     - name: Build with Gradle Wrapper
-      run: ./gradlew build
+      run: ./hamsung_backend/hamsung_project/gradlew build
 
     #아래 부분을 새로 추가
     - name: Make zip file
