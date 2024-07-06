@@ -19,6 +19,9 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./hamsung_project
     permissions:
       contents: read
 
