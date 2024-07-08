@@ -49,6 +49,9 @@ public class Study {
     @Column(name="leader_id",nullable = false)
     private Long leader_id;
 
+    @Column
+    private String title;
+
 
 
     //dto->entity
@@ -62,7 +65,8 @@ public class Study {
                 null, // startDate 기본값
                 null, //endDate 기본값
                 null, //score 기본값
-                requestsDto.getUser_id() //leader_id
+                requestsDto.getUser_id(), //leader_id,
+                requestsDto.getTitle()
         );
     }
 
