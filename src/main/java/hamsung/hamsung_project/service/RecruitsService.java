@@ -128,6 +128,7 @@ public class RecruitsService {
         }
         recruitsRepository.save(target);
         target.getStudy().setStartDate(LocalDate.now());
+        target.getStudy().setStatus(true); //추가..
         return target.getIsRecruit();
     }
 

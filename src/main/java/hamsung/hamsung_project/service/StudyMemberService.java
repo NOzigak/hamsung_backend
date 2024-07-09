@@ -52,11 +52,15 @@ public class StudyMemberService {
                 .orElseThrow(() -> new IllegalArgumentException("해당 스터디를 찾을 수 없어요."));
 
         //studyMemberRepository에서 study_id FK로 찾기->studyMemberList를 applyingSummaryList로 바꿔줘야.
+        //아직 승인되지 않은 studyMember만 반환하도록 수정
         List<StudyMember> StudyMemberList = studyMemberRepository.findByStudy_id(study_id);
         List<ApplyingSummaryDto> summaryDtoList=new ArrayList<>();
-        for(StudyMember studyMember:StudyMemberList){
-            summaryDtoList.add(ApplyingSummaryDto.createSummaryDto(studyMember));
+        for (StudyMember studyMember : StudyMemberList) {
+            if (studyMember.getApproval() ==false) {
+                summaryDtoList.add(ApplyingSummaryDto.createSummaryDto(studyMember));
+            }
         }
+
 //                ApplyingSummaryDto.summaryMembers(applyingList);
         return summaryDtoList;
     }

@@ -51,12 +51,13 @@ public class Recruit {
     @Column(name="capacity")
     private Integer capacity;
 
+    //추가
+    @Builder.Default()
     @Column(name="isRecruit")
-    private Boolean isRecruit;
+    private Boolean isRecruit=false;
 
     @Builder.Default()
     @Column(name="view")
-    @ColumnDefault("0")
     private Integer view=0;
 
 //
