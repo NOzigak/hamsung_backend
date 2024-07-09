@@ -22,6 +22,11 @@ public class UserController {
         this.userService = userService;
     }
 
+    @GetMapping("/health-check")
+    public ResponseEntity healthCheck() {
+        return ResponseEntity.ok();
+    }
+    
     @PostMapping("/users")
     public ResponseEntity createUser(@RequestBody UserRequestDTO userdto) {
         userService.joinUser(userdto);
