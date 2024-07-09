@@ -87,11 +87,14 @@ public class Recruit {
         recruit.setCategory(requestDto.getCategory());
         recruit.setPlace(requestDto.getPlace());
         recruit.setCapacity(requestDto.getCapacity());
-        recruit.setIsRecruit(requestDto.getIsRecruit());
-        recruit.setView(requestDto.getView());
+        recruit.setIsRecruit(false);
+        recruit.setView(0);
         // createdAt 등 필요한 설정 추가 가능
         return recruit;
     }
+
+
+
 
     public static Recruit updateRecruit(RecruitsRequestsDto dto,Recruit target){
         target.setTitle(dto.getTitle());
