@@ -24,7 +24,7 @@ public class UserController {
 
     @GetMapping("/health-check")
     public ResponseEntity healthCheck() {
-        return ResponseEntity.ok();
+        return ResponseEntity.ok("healthy!");
     }
     
     @PostMapping("/users")
