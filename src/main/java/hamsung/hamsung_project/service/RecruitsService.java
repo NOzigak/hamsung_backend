@@ -107,8 +107,9 @@ public class RecruitsService {
     public boolean deleteRecruit(Long id){
         Recruit target=recruitsRepository.findById(id).orElseThrow(()->new IllegalArgumentException("해당 게시글을 찾을 수 없습니다."));
         if (recruitsRepository.existsById(id)) {
-//            List<Comment> comment=commentRepository.findAllByRecruitId(id);
-//            commentRepository.deleteById(id);
+            //FK 연관관계 때문에 게시글에 딸린 comments 먼저 삭제.
+            List<Comment> comment=commentRepository.findAllByRecruitId(id);
+            commentRepository.deleteAll(comment);
             recruitsRepository.deleteById(id);
             return true;
         } else {
