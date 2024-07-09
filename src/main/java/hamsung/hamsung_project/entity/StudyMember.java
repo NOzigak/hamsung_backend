@@ -1,5 +1,6 @@
 package hamsung.hamsung_project.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
@@ -30,6 +31,7 @@ public class StudyMember {
     private User users;
 
     @ManyToOne
+    @JsonBackReference
     @JoinColumn(name="study_id")
     private Study study;
 
