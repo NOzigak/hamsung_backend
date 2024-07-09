@@ -2,6 +2,7 @@ package hamsung.hamsung_project.service;
 
 import hamsung.hamsung_project.dto.*;
 import hamsung.hamsung_project.entity.*;
+import hamsung.hamsung_project.exception.InvalidDataException;
 import hamsung.hamsung_project.repository.*;
 import hamsung.hamsung_project.repository.RecruitsRepository;
 import hamsung.hamsung_project.repository.StudyMemberRepository;
@@ -28,6 +29,7 @@ public class RecruitsService {
     private final UserRepository userRepository;
     private final StudyMemberService studyMemberService;
     private final CommentRepository commentRepository;
+    private final ChildCommentRepository childCommentRepository;
 
     //게시글 생성 //스터디 생성
     @Transactional
@@ -108,13 +110,15 @@ public class RecruitsService {
         Recruit target=recruitsRepository.findById(id).orElseThrow(()->new IllegalArgumentException("해당 게시글을 찾을 수 없습니다."));
         if (recruitsRepository.existsById(id)) {
             //FK 연관관계 때문에 게시글에 딸린 comments 먼저 삭제.
-            List<Comment> comment=commentRepository.findAllByRecruitId(id);
-            commentRepository.deleteAll(comment);
+//            List<Comment> comment=commentRepository.findAllByRecruitId(id);
+//            commentRepository.deleteAll(comment);
+
             recruitsRepository.deleteById(id);
             return true;
         } else {
             return false;
         }
+
     }
 
     //스터디 모집 상태 변경(버튼 클릭?)

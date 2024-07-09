@@ -35,7 +35,7 @@ public class Recruit {
 
 
     @JoinColumn(name="study_id")
-    @JsonBackReference
+//    @JsonBackReference
     @OneToOne(cascade = CascadeType.ALL)
     private Study study;
 

@@ -2,6 +2,8 @@ package hamsung.hamsung_project.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,8 +32,9 @@ public class Comment {
     @OneToMany(mappedBy = "comment", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<ChildComment> childs = new ArrayList<>();
 
-    @ManyToOne
+    @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name ="recruit_id")
+    @OnDelete(action= OnDeleteAction.CASCADE)
     private Recruit recruit; //스터디 모집글
 
     public static Comment createComment(Long id, String text, String createdDate, String modifiedDate) {
