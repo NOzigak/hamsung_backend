@@ -29,7 +29,7 @@ public class Recruit {
     @Column(name="title",nullable=false)
     private String title;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="user_id")
     private User users;
 
