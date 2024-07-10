@@ -22,6 +22,7 @@ public class RecruitSummaryDto {
     private String place;
     private Integer capacity;
     private Boolean isRecruit;
+    private Integer view;
     //    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @JsonProperty("created_at")
@@ -30,7 +31,7 @@ public class RecruitSummaryDto {
     public static RecruitSummaryDto createRequestDto(Recruit recruit){
         return new RecruitSummaryDto(recruit.getId(), recruit.getTitle(),
                 recruit.getCategory(), recruit.getUsers().getUsername(), recruit.getPlace(), recruit.getCapacity(),
-                recruit.getIsRecruit(), recruit.getCreatedAt());
+                recruit.getIsRecruit(), recruit.getView(),recruit.getCreatedAt());
     }
 
 

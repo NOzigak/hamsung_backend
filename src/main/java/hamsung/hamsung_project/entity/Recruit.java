@@ -36,7 +36,7 @@ public class Recruit {
 
     @JoinColumn(name="study_id")
 //    @JsonBackReference
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(fetch=FetchType.LAZY)
     private Study study;
 
     @Column(name="description")

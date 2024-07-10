@@ -19,6 +19,7 @@ public class RecruitsResponseDto {
     private Long id;
     @JsonProperty("user_id")
     private Long user_id;
+    private String username;
     @JsonProperty("study_id")
     private Long study_id;
     private String title;
@@ -39,7 +40,7 @@ public class RecruitsResponseDto {
 
     //entity->dto
     public static RecruitsResponseDto createRecruitsDTO(Recruit recruit) {
-        return new RecruitsResponseDto(recruit.getId(), recruit.getUsers().getId(), recruit.getStudy().getId(), recruit.getTitle(), recruit.getDescription(), recruit.getCategory()
+        return new RecruitsResponseDto(recruit.getId(), recruit.getUsers().getId(), recruit.getUsers().getUsername(),recruit.getStudy().getId(), recruit.getTitle(), recruit.getDescription(), recruit.getCategory()
                 , recruit.getCapacity(), recruit.getPlace(), recruit.getView(), recruit.getCreatedAt());
     }
 
