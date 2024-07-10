@@ -97,9 +97,8 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
 
         //응답 설정
         response.setHeader("access", access);
-        Cookie refreshCookie = jwtUtil.createCookie("refresh", refresh);
-        refreshCookie.setSecure(true); //secure 속성 추가
-        response.addCookie(refreshCookie);
+        response.addCookie(jwtUtil.createCookie("refresh", refresh));
+
         response.setStatus(HttpStatus.OK.value());
     }
 
