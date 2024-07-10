@@ -2,6 +2,7 @@ package hamsung.hamsung_project.service;
 
 import hamsung.hamsung_project.dto.ChildCommentRequestDto;
 import hamsung.hamsung_project.dto.CommentRequestDto;
+import hamsung.hamsung_project.dto.UpdateCommentRequest;
 import hamsung.hamsung_project.entity.ChildComment;
 import hamsung.hamsung_project.entity.Comment;
 import hamsung.hamsung_project.entity.Recruit;
@@ -90,17 +91,18 @@ public class CommentService {
     }
 
     // 댓글 수정
-    public Long updateComment(Long commentId, Long userId, String text) {
+    public Long updateComment(Long commentId, UpdateCommentRequest updateCommentRequest) {
 
         // CommentId로 조회가 안되는 경우 예외
         Comment comment = commentRepository.findById(commentId)
                 .orElseThrow(() -> new InvalidDataException("Invalid CommentId"));
 
         // 수정자와 댓글 작성자가 다를 경우 예외
-        if(!userId.equals(comment.getUser().getId()))
+        if(!updateCommentRequest.getUserId().equals(comment.getUser().getId()))
             throw new InvalidDataException("Invalid UserId");
 
         // Text가 비어있는 경우
+        String text = updateCommentRequest.getText();
         if (text.equals(""))
             throw new InvalidDataException("Invalid Text");
 
@@ -130,16 +132,16 @@ public class CommentService {
     }
 
     // 대댓글 수정
-    public Long updateChildComment(Long childCommentId, Long userId, String text) {
+    public Long updateChildComment(Long childCommentId, UpdateCommentRequest updateCommentRequest) {
         ChildComment childComment = childCommentRepository.findById(childCommentId)
                 .orElseThrow(() -> new InvalidDataException("Invalid ChildCommentId"));
 
         Long commentUserId = childComment.getUserId(); //
         // 수정자와 댓글 작성자가 다를 경우
-        if(!userId.equals(commentUserId)){
+        if(!updateCommentRequest.getUserId().equals(commentUserId)){
             throw new InvalidDataException("Invalid UserId");
         }
-
+        String text = updateCommentRequest.getText();
         if (text.equals("")) {
             throw new InvalidDataException("Invalid text");
         }

@@ -3,6 +3,7 @@ package hamsung.hamsung_project.controller;
 import hamsung.hamsung_project.dto.ChildCommentRequestDto;
 import hamsung.hamsung_project.dto.CommentRequestDto;
 import hamsung.hamsung_project.dto.CommentResponseDto;
+import hamsung.hamsung_project.dto.UpdateCommentRequest;
 import hamsung.hamsung_project.entity.Comment;
 import hamsung.hamsung_project.service.CommentService;
 import org.springframework.http.ResponseEntity;
@@ -24,21 +25,22 @@ public class CommentController {
     //모집글에 댓글 생성
     @PostMapping("/recruits/{recruits-id}/comments")
     public ResponseEntity<String> createComment(@PathVariable(name = "recruits-id") Long recruitsId, Long userId, CommentRequestDto commentDto) {
+        System.out.println(userId + commentDto.getText());
         commentService.createComment(recruitsId, userId, commentDto);
         return ResponseEntity.ok("create Comment successfully");
     }
 
     // 댓글 삭제
     @DeleteMapping("/comments/{comment-id}")
-    public ResponseEntity<String> deleteComment(@PathVariable(name="comment-id") Long commentId, Long userId) {
+    public ResponseEntity<String> deleteComment(@PathVariable(name="comment-id") Long commentId,@RequestBody Long userId) {
         commentService.deleteComment(commentId, userId);
         return ResponseEntity.ok("delete comment sucessfully");
     }
 
     // 댓글 수정
     @PutMapping("/comments/{comment-id}")
-    public ResponseEntity<String> updateComment(@PathVariable(name="comment-id") Long commentId, Long userId, String text) {
-        commentService.updateComment(commentId, userId, text);
+    public ResponseEntity<String> updateComment(@PathVariable(name="comment-id") Long commentId, @RequestBody UpdateCommentRequest updateCommentRequest) {
+        commentService.updateComment(commentId, updateCommentRequest);
         return ResponseEntity.ok("update comment successfully");
     }
 
@@ -55,7 +57,7 @@ public class CommentController {
 
     // 대댓글 생성
     @PostMapping("/child-comments/{parent-comment-id}")
-    public ResponseEntity<String> createChildComment(@PathVariable(name="parent-comment-id") Long parentCommentId,
+    public ResponseEntity<String> createChildComment(@PathVariable(name="parent-comment-id") Long parentCommentId,@RequestBody
                                              ChildCommentRequestDto childCommentDto) {
         commentService.createChildComment(parentCommentId, childCommentDto);
         return ResponseEntity.ok("create child comment successfully");
@@ -64,7 +66,7 @@ public class CommentController {
 
     // 대댓글 삭제
     @DeleteMapping("child-comments/{child-comment-id}")
-    public ResponseEntity<String> deleteChildComment(@PathVariable(name="child-comment-id") Long chlidCommentId, Long userId) {
+    public ResponseEntity<String> deleteChildComment(@PathVariable(name="child-comment-id") Long chlidCommentId,@RequestBody Long userId) {
 
         commentService.deleteChildComment(chlidCommentId, userId);
         return ResponseEntity.ok("delete comment successfully");
@@ -72,8 +74,8 @@ public class CommentController {
 
     // 대댓글 수정
     @PutMapping("/child-comments/{child-comment-id}")
-    public ResponseEntity<String> updateChildComment(@PathVariable(name="child-comment-id") Long childCommentId, Long userId, String text) {
-        commentService.updateChildComment(childCommentId, userId, text);
+    public ResponseEntity<String> updateChildComment(@PathVariable(name="child-comment-id") Long childCommentId,@RequestBody UpdateCommentRequest updateCommentRequest) {
+        commentService.updateChildComment(childCommentId, updateCommentRequest);
         return ResponseEntity.ok("update comment successfully");
 
     }
