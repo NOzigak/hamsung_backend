@@ -77,15 +77,10 @@ public class CommentService {
     }
 
     // 댓글 삭제
-    public void deleteComment(Long commentId, Long userId) {
+    public void deleteComment(Long commentId) {
         // 댓글이 존재하지 않는 경우 -> 에외
-        Long commentUserId = commentRepository.findById(commentId)
-                .orElseThrow(() -> new InvalidDataException("Invalid commentId")).getUser().getId();
-
-        // 요청 UserId와 댓글 작성자 Id가 다른 경우
-        if(!userId.equals(commentUserId)){
-            throw new InvalidDataException("Invalid UserId");
-        }
+        commentRepository.findById(commentId)
+                .orElseThrow(() -> new InvalidDataException("Invalid commentId"));
 
         commentRepository.deleteById(commentId);
     }
@@ -118,15 +113,11 @@ public class CommentService {
 
 
     // 대댓글 삭제
-    public void deleteChildComment(Long commentId, Long userId) {
+    public void deleteChildComment(Long commentId) {
 
         // 대댓글 작성자 Id 추출하기 -> 대댓글 조회 안되면 예외
-        Long childCommentUserId = childCommentRepository.findById(commentId)
-                .orElseThrow(() -> new InvalidDataException("Invalid ChildCommentId")).getUserId();
-
-        // 삭제 요청 UserId와 대댓글 작성자 Id 비교 -> 다르면 예외
-        if(!userId.equals(childCommentUserId))
-            throw new InvalidDataException("Invalid UserId");
+        childCommentRepository.findById(commentId)
+                .orElseThrow(() -> new InvalidDataException("Invalid ChildCommentId"));
 
         childCommentRepository.deleteById(commentId);
     }
