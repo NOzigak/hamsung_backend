@@ -5,6 +5,7 @@ import hamsung.hamsung_project.config.auth.CustomUserDetails;
 import hamsung.hamsung_project.entity.RefreshToken;
 import hamsung.hamsung_project.repository.RefreshRepository;
 import jakarta.servlet.FilterChain;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpStatus;
@@ -96,7 +97,9 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
 
         //응답 설정
         response.setHeader("access", access);
-        response.addCookie(jwtUtil.createCookie("refresh", refresh));
+        Cookie refreshCookie = jwtUtil.createCookie("refresh", refresh);
+        refreshCookie.setSecure(true); //secure 속성 추가
+        response.addCookie(refreshCookie);
         response.setStatus(HttpStatus.OK.value());
     }
 
