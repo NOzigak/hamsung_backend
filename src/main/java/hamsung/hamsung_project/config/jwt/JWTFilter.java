@@ -38,7 +38,7 @@ public class JWTFilter extends OncePerRequestFilter {
 
         // 헤더에서 access키에 담긴 토큰을 꺼냄
         String accessToken = request.getHeader("access");
-        System.out.println("accessToken 확인하기 "+accessToken);
+//        System.out.println("accessToken 확인하기 "+accessToken);
 //        accessToken = accessToken.replace("\"", "");
 //        System.out.println("accessToken 확인하기 "+accessToken);
         // 토큰이 없다면 다음 필터로 넘김
@@ -46,7 +46,7 @@ public class JWTFilter extends OncePerRequestFilter {
 
 
         if (accessToken == null) {
-            System.out.println("1단계");
+//            System.out.println("1단계");
             filterChain.doFilter(request, response);
 
             return;
@@ -56,7 +56,7 @@ public class JWTFilter extends OncePerRequestFilter {
         try {
             jwtUtil.isExpired(accessToken);
         } catch (ExpiredJwtException e) {
-            System.out.println("2단계");
+//            System.out.println("2단계");
             //response body
             PrintWriter writer = response.getWriter();
             writer.print("access token expired");
