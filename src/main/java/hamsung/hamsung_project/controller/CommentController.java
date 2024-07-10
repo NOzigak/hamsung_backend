@@ -32,8 +32,8 @@ public class CommentController {
 
     // 댓글 삭제
     @DeleteMapping("/comments/{comment-id}")
-    public ResponseEntity<String> deleteComment(@PathVariable(name="comment-id") Long commentId,@RequestBody Long userId) {
-        commentService.deleteComment(commentId, userId);
+    public ResponseEntity<String> deleteComment(@PathVariable(name="comment-id") Long commentId) {
+        commentService.deleteComment(commentId);
         return ResponseEntity.ok("delete comment sucessfully");
     }
 
@@ -66,9 +66,9 @@ public class CommentController {
 
     // 대댓글 삭제
     @DeleteMapping("child-comments/{child-comment-id}")
-    public ResponseEntity<String> deleteChildComment(@PathVariable(name="child-comment-id") Long chlidCommentId,@RequestBody Long userId) {
+    public ResponseEntity<String> deleteChildComment(@PathVariable(name="child-comment-id") Long chlidCommentId) {
 
-        commentService.deleteChildComment(chlidCommentId, userId);
+        commentService.deleteChildComment(chlidCommentId);
         return ResponseEntity.ok("delete comment successfully");
     }
 
