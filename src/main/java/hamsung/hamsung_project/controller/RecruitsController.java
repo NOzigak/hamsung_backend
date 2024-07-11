@@ -113,7 +113,8 @@ public class RecruitsController {
         if (isApproved) {
             return ResponseEntity.status(HttpStatus.OK).body(ResultDto.res(HttpStatus.OK.toString(), "승인완료하였습니다."));
         } else {
-            return ResponseEntity.status(HttpStatus.OK).body(ResultDto.res(HttpStatus.OK.toString(), "이미 승인 완료된 지원자입니다."));
+            //studymember entity안에서 userId는 조회O but studyId 조회X
+            return ResponseEntity.status(HttpStatus.OK).body(ResultDto.res(HttpStatus.OK.toString(), "승인 오류가 발생하였습니다."));
         }
 
 

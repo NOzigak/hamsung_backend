@@ -81,7 +81,7 @@ public class UserService {
         user.setUsername(username);
 //        user.setEmail(email);
 //        user.setPassword(bCryptPasswordEncoder.encode(password));
-        user.setImaged_num(userDTO.getImage_num());
+//        user.setImaged_num(userDTO.getImage_num());
 
         userRepository.save(user);
         return user.getId();
@@ -97,6 +97,5 @@ public class UserService {
 
     public void deleteById(Long id) { userRepository.deleteById(id); }
 }
-
 
 
