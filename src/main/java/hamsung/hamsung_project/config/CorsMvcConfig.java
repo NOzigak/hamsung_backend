@@ -12,9 +12,13 @@ public class CorsMvcConfig implements WebMvcConfigurer {
 
         corsRegistry.addMapping("/**")
                 .exposedHeaders("Set-Cookie")
-                .allowedOrigins("http://localhost:3000", "https://localhost:3000", "https://nozigak.site", "https://127.0.0.1:3000")
+                .allowedOriginPatterns("*")
+//                .allowedOrigins("http://localhost:3000", "https://localhost:3000", "https://nozigak.site", "https://127.0.0.1:3000")
                 .allowCredentials(true); // 쿠키를 포함한 요청을 허용
-
+//        corsRegistry.addMapping("/**")
+//                .allowedOrigins("http://localhost:3000", "https://localhost:3000", "https://nozigak.site", "https://127.0.0.1:3000")
+//                .exposedHeaders("Set-Cookie")
+//                .allowCredentials(true);
 
     }
 }

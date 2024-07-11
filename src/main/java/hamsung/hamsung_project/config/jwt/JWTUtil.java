@@ -65,7 +65,7 @@ public class JWTUtil {
         cookie.setMaxAge(24*60*60);
         //cookie.setSecure(true);
         //cookie.setPath("/");
-        cookie.setHttpOnly(true);
+//        cookie.setHttpOnly(true);
         cookie.setSecure(true); //secure 속성 추가
         cookie.setDomain("nozigak.site"); // 도메인 설정
         cookie.setPath("/"); // 모든 경로에서 유효
