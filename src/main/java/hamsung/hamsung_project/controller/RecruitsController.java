@@ -41,7 +41,7 @@ public class RecruitsController {
     }
 
     //스터디 모집글 수정
-    @PutMapping("/recruits/{id}")
+    @PatchMapping("/recruits/{id}")
     public ResponseEntity<ResultDto<String>> updateRecruits(@PathVariable Long id, @RequestBody RecruitsRequestsDto requestsDto) {
         RecruitsResponseDto updatedRecruits = recruitsService.updateRecruits(id, requestsDto);
         return ResponseEntity.status(HttpStatus.OK).body(ResultDto.res(HttpStatus.OK.toString(),"수정 완료하였습니다."));

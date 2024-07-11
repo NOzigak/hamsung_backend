@@ -100,6 +100,8 @@ public class RecruitsService {
         recruitsRepository.save(updatedTarget);
         Study updatedStudy=Study.updateStudy(requestsDto,study);
         studyRepository.save(updatedStudy);
+//        target.getIsRecruit().setIsRecruit(getIsRecruit());
+//        target.getStudy().setStatus(true); //추가..
         return RecruitsResponseDto.createRecruitsDTO(target);
     }
 

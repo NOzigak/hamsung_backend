@@ -26,11 +26,11 @@ public class StudyMember {
     //leader는 default가 true로.
     private Boolean approval=false;
 
-    @ManyToOne
+    @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="user_id")
     private User users;
 
-    @ManyToOne
+    @ManyToOne(fetch=FetchType.LAZY)
     @JsonBackReference
     @JoinColumn(name="study_id")
     private Study study;
