@@ -89,7 +89,7 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
         String role = auth.getAuthority();
 
         //토큰 생성
-        String access = jwtUtil.createJwt(userId,"access", username, role, 1000 * 60 * 10L); // (1초 * 60) * 10 = 10분
+        String access = jwtUtil.createJwt(userId,"access", username, role, 1000 * 60 * 1L); // (1초 * 60) * 10 = 10분
         String refresh = jwtUtil.createJwt(userId,"refresh", username, role, 86400000L);
 
         //Refresh 토큰 저장
@@ -97,8 +97,10 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
 
         //응답 설정
         response.setHeader("access", access);
-        response.addCookie(jwtUtil.createCookie("refresh", refresh));
 
+        String expires = new Date(System.currentTimeMillis() + 1000L * 60 * 60 * 24).toString(); // 1일 후 만료
+        response.setHeader("Set-Cookie",
+                "refresh=" + refresh + "; Path=/; HttpOnly; SameSite=None; Secure; expires=" + expires);
         response.setStatus(HttpStatus.OK.value());
     }
 

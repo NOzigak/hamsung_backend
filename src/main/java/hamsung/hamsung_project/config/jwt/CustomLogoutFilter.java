@@ -12,6 +12,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.web.filter.GenericFilterBean;
 
 import java.io.IOException;
+import java.util.Date;
 
 public class CustomLogoutFilter extends GenericFilterBean {
 
@@ -95,15 +96,12 @@ public class CustomLogoutFilter extends GenericFilterBean {
         }
 
         //로그아웃 진행
-        //Refresh 토큰 DB에서 제거
+        //Refresh 토큰 DB에서 제거 후 RefreshToken null로 응답하기
         refreshRepository.deleteByRefresh(refresh);
+        response.setHeader("Set-Cookie",
+                "refresh=" + null + "; Path=/; HttpOnly; SameSite=None; Secure;");
 
-        //Refresh 토큰 Cookie 값 0
-        Cookie cookie = new Cookie("refresh", null);
-        cookie.setMaxAge(0);
-        cookie.setPath("/");
 
-        response.addCookie(cookie);
         response.setStatus(HttpServletResponse.SC_OK);
 
     }

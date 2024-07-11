@@ -10,8 +10,8 @@ name: Java CI with Gradle
 #   PROJECT_NAME: 
   
 on:
-  # push:
-  #   branches: [ "feature/test" ]
+  #  push:
+  #    branches: [ "feature/test" ]
   pull_request:
     branches: [ "main" ]
 
