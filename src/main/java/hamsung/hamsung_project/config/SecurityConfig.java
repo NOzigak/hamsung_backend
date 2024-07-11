@@ -61,7 +61,6 @@ public class SecurityConfig {
 
                         CorsConfiguration configuration = new CorsConfiguration();
 
-                        //configuration.setAllowedOrigins(Collections.singletonList("http://localhost:3000"));
                         configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000", "https://localhost:3000", "https://nozigak.site", "https://127.0.0.1:3000"));
                         
                         configuration.setAllowedMethods(Collections.singletonList("*"));
@@ -71,9 +70,6 @@ public class SecurityConfig {
 
                         configuration.setExposedHeaders(Arrays.asList("Set-Cookie", "access"));
 
-
-//                        configuration.setExposedHeaders(Collections.singletonList("Set-Cookie"));
-//                        configuration.setExposedHeaders(Collections.singletonList("access"));
 
                         return configuration;
                     }
