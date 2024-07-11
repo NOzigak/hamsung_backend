@@ -81,7 +81,11 @@ public class RefreshService {
 
         //response
         response.setHeader("access", newAccess);
-        response.addCookie(jwtUtil.createCookie("refresh", newRefresh));
+//        response.addCookie(jwtUtil.createCookie("refresh", newRefresh));
+
+        String expires = new Date(System.currentTimeMillis() + 1000L * 60 * 60 * 24).toString(); // 1일 후 만료
+        response.setHeader("Set-Cookie",
+                "refresh=" + newRefresh + "; Path=/; HttpOnly; SameSite=None; Secure; expires=" + expires);
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
