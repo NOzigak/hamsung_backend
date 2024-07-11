@@ -32,6 +32,7 @@ public class RecruitsResponseDto {
     @JsonProperty("createdAt")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDate createdAt;
+    private Boolean isRecruit;
 //    @JsonProperty("study_id")
 //    private Study study;
 
@@ -41,7 +42,7 @@ public class RecruitsResponseDto {
     //entity->dto
     public static RecruitsResponseDto createRecruitsDTO(Recruit recruit) {
         return new RecruitsResponseDto(recruit.getId(), recruit.getUsers().getId(), recruit.getUsers().getUsername(),recruit.getStudy().getId(), recruit.getTitle(), recruit.getDescription(), recruit.getCategory()
-                , recruit.getCapacity(), recruit.getPlace(), recruit.getView(), recruit.getCreatedAt());
+                , recruit.getCapacity(), recruit.getPlace(), recruit.getView(), recruit.getCreatedAt(),recruit.getIsRecruit());
     }
 
 
