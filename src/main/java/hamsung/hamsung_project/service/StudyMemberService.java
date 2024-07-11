@@ -72,9 +72,17 @@ public class StudyMemberService {
     public boolean approveMember(Long study_id,Long users_id) {
         Study target = studyRepository.findById(study_id)
                 .orElseThrow(() -> new IllegalArgumentException("해당 스터디를 찾을 수 없어요."));
-        StudyMember realMember = studyMemberRepository.findByUsersId(users_id)
-                .orElseThrow(() -> new IllegalArgumentException("해당 사용자를 찾을 수 없어요."));
-//        StudyMember realMember=studyMemberRepository.findByStudy_id(study_id);
+//        StudyMember realMember = studyMemberRepository.findByUsersId(users_id)
+//                .orElseThrow(() -> new IllegalArgumentException("해당 사용자를 찾을 수 없어요."));
+        List<StudyMember> members = studyMemberRepository.findAll();
+        StudyMember realMember=null;
+
+        for(StudyMember member:members){
+            if(member.getUsers().getId().equals(users_id)&&member.getStudy().getId().equals(study_id)){
+                realMember=member;
+                break;
+            }
+        }
 
         if (realMember.getApproval() == false) {
             realMember.setApproval(true);
@@ -84,13 +92,6 @@ public class StudyMemberService {
             realMember.setApproval(true);
             return false;
         }
-
-        //member를 entity로 바꿔줘야. // studymember entity로 바꿔주는 메서드 작성
-//            studyMemberRepository.save(member);
-//            //study members_num 필드 값 +1
-//            //study_id로 study찾고 members_num field get -> +1
-//            ResponseEntity<Study>=studyRepository.findById(study_id);
-
     }
 
 }
