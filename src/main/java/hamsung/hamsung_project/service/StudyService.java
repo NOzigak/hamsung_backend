@@ -3,6 +3,7 @@ package hamsung.hamsung_project.service;
 import hamsung.hamsung_project.dto.MyStudyDto;
 import hamsung.hamsung_project.dto.RecruitsRequestsDto;
 import hamsung.hamsung_project.dto.StudyDto;
+import hamsung.hamsung_project.dto.StudyRankingDto;
 import hamsung.hamsung_project.entity.Recruit;
 import hamsung.hamsung_project.entity.Study;
 import hamsung.hamsung_project.repository.RecruitsRepository;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class StudyService {
@@ -105,7 +107,21 @@ public class StudyService {
         return studyDtoList;
     }
 
+    //스터디 랭킹(스터디 전체 조회)
+    @Transactional
+    public List<StudyRankingDto> showRanking(){
+        List<Study> studyList=studyRepository.findAll();
+//        List<StudyRankingDto> ranking=new ArrayList<>();
 
-
+        return studyList.stream()
+                .sorted((m1,m2)->Integer.compare(m2.getScore(),m1.getScore()))
+                .limit(10)
+                .map(study->new StudyRankingDto(
+                        study.getId(),
+                        study.getTitle(),
+                        study.getScore()
+                ))
+                .collect(Collectors.toList());
+    }
 
 }
