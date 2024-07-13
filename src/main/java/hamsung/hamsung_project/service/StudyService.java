@@ -114,6 +114,7 @@ public class StudyService {
 //        List<StudyRankingDto> ranking=new ArrayList<>();
 
         return studyList.stream()
+                .filter(study -> study.getScore() != 0)
                 .sorted((m1,m2)->Integer.compare(m2.getScore(),m1.getScore()))
                 .limit(10)
                 .map(study->new StudyRankingDto(
