@@ -2,6 +2,7 @@ package hamsung.hamsung_project.service;
 
 import hamsung.hamsung_project.dto.ApplyingSummaryDto;
 import hamsung.hamsung_project.dto.ApplyingDto;
+import hamsung.hamsung_project.dto.MemberSummaryDto;
 import hamsung.hamsung_project.dto.StudyMemberDto;
 import hamsung.hamsung_project.entity.Study;
 import hamsung.hamsung_project.entity.StudyMember;
@@ -15,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.lang.reflect.Member;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -92,6 +94,20 @@ public class StudyMemberService {
             realMember.setApproval(true);
             return false;
         }
+    }
+
+    //스터디 멤버 조회
+    public List<MemberSummaryDto> findAllMembers(Long study_id){
+        Study study = studyRepository.findById(study_id)
+                .orElseThrow(() -> new IllegalArgumentException("해당 스터디를 찾을 수 없어요."));
+        List<StudyMember> StudyMemberList = studyMemberRepository.findByStudy_id(study_id);
+        List<MemberSummaryDto> summaryMemberList=new ArrayList<>();
+        for (StudyMember studyMember : StudyMemberList) {
+            if (studyMember.getApproval() ==true) {
+                summaryMemberList.add(MemberSummaryDto.createSummaryDto(studyMember));
+            }
+        }
+        return summaryMemberList;
     }
 
 }
