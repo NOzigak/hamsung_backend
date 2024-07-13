@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ManageService {
@@ -18,6 +19,13 @@ public class ManageService {
     private StudyRepository studyRepository;
 
     public ManageDto createWeekScore(ManageDto dto){
+        int week=dto.getWeek();
+        Long studyId=dto.getStudyId();
+        Optional<Manage> manage=manageRepository.findByStudy_IdAndWeek(studyId, week);
+        if(manage.isPresent()){
+            throw new IllegalArgumentException("이미 해당 스터디 주차에 대한 점수가 기록되어있습니다!");
+        }
+
         int absent=dto.getAbsent();
         int late=dto.getLate();
         int homework=dto.getHomework();
