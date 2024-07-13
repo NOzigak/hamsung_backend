@@ -10,7 +10,7 @@
 |팀원|역할|
 |----|---|
 |강민서|ERD 설계<br>API 명세서 작성<br>|
-|남승현|ERD 설계<br>API 명세서 작성<br>스터디 API 개발<br>공지사항 API 개발<br>캘린더 일정관리 API 개발<br>리뷰 API 개발<br>스터디 관리 기록 API 개발|
+|남승현|ERD 설계<br>API 명세서 작성<br>스터디 API 개발<br>공지사항 API 개발<br>캘린더 일정관리 API 개발<br>멤버 리뷰 API 개발<br>주차별 스터디 관리 API 개발|
 |송우석|ERD 설계<br>API 명세서 작성<br>|
 
 
