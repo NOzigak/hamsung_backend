@@ -48,7 +48,7 @@ public class Study {
     @Column(name="score")
     @ColumnDefault("0")
     @Builder.Default()
-    private Integer score=0;
+    private int score=0;
 
     @Column(name="leader_id",nullable = false)
     private Long leader_id;

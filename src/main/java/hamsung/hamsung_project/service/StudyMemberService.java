@@ -97,21 +97,6 @@ public class StudyMemberService {
         }
     }
 
-//    //스터디 멤버 조회
-//    public List<MemberSummaryDto> findAllMembers(Long study_id){
-//        Study study = studyRepository.findById(study_id)
-//                .orElseThrow(() -> new InvalidDataException("해당 스터디를 찾을 수 없어요."));
-//        List<StudyMember> studyMembers=studyMemberRepository.findAll();
-//        List<MemberSummaryDto> summaryMemberList=new ArrayList<>();
-//        for(StudyMember member:studyMembers){
-//            if(member.getStudy().getId().equals(study_id)&&member.getApproval().equals(true)){
-//               summaryMemberList.add(MemberSummaryDto.createSummaryDto(member));
-//            }
-//        }
-//        return summaryMemberList;
-//    }
-
-
     //스터디 멤버 조회
     public List<MemberSummaryDto> findAllMembers(Long study_id){
         Study study = studyRepository.findById(study_id)
