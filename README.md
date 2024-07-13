@@ -42,6 +42,11 @@
 
 ## 기술 아키텍쳐
 
+#### 서버 배포 파이프라인
+
+![백엔드 배포 파이프라인](https://github.com/user-attachments/assets/31819b84-4969-40cb-9831-49c51ac44d04)
+
+
 <br>
 
 ## ERD
