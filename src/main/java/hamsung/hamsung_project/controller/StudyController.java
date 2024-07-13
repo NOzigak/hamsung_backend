@@ -1,8 +1,6 @@
 package hamsung.hamsung_project.controller;
 
-import hamsung.hamsung_project.dto.MyStudyDto;
-import hamsung.hamsung_project.dto.ResultDto;
-import hamsung.hamsung_project.dto.StudyDto;
+import hamsung.hamsung_project.dto.*;
 import hamsung.hamsung_project.entity.Study;
 import hamsung.hamsung_project.service.StudyService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,4 +64,13 @@ public class StudyController {
         }
         return ResponseEntity.status(HttpStatus.OK).body(target);
     }
+
+
+    //스터디 랭킹(스터디 전체 조회)
+    @GetMapping("/study/ranking")
+    public ResponseEntity<List<StudyRankingDto>> showRanking(){
+        List<StudyRankingDto> rankingList=studyService.showRanking();
+        return ResponseEntity.status(HttpStatus.OK).body(rankingList);
+    }
+
 }
