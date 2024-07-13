@@ -36,6 +36,11 @@ public class JWTFilter extends OncePerRequestFilter {
             return;
         }
 
+        if ("/reissue".equals(requestURI)) {
+            filterChain.doFilter(request, response); // /reissue 경로는 필터를 통과
+            return;
+        }
+
         // 헤더에서 access키에 담긴 토큰을 꺼냄
         String accessToken = request.getHeader("access");
 //        System.out.println("accessToken 확인하기 "+accessToken);
