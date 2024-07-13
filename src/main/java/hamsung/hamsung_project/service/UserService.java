@@ -69,12 +69,12 @@ public class UserService {
 //        String email = userDTO.getEmail();
 //        String password= userDTO.getPassword();
 
+        // 중복 닉네임 검사
         if (userRepository.existsByUsername(username))
             throw new InvalidDataException("invalid username.");
-//        if (userRepository.existsByEmail(email))
-//            throw new InvalidDataException("invalid email.");
+
         // 유저 id 검증
-        if (userRepository.existsById(id))
+        if (!userRepository.existsById(id))
             throw new InvalidDataException("not found user.");
         User user = userRepository.findById(id).get();
 
