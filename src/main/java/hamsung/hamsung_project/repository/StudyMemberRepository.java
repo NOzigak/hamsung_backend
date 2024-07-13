@@ -19,7 +19,7 @@ public interface StudyMemberRepository extends JpaRepository<StudyMember,Long> {
 //    @Query("select new hamsung.hamsung_project.dto.StudyMemberDto(s.users.id, s.users.username, s.users.review) " +
 //            "from StudyMember s where s.study.id = :study_id")
 //    List<StudyMemberDto> findByStudyMember_StudyId(@Param("study_id") Long study_id);
-    List<StudyMember> findByStudy_id(Long study_id);
+    List<StudyMember> findByStudy_Id(Long study_id);
     List<StudyMember> findByUsers_Id(Long user_id);
     Optional<StudyMember> findByUsersId(Long users_id);
 }
