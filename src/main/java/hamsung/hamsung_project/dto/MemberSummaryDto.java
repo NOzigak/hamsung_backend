@@ -11,7 +11,7 @@ import lombok.ToString;
 @ToString
 @AllArgsConstructor
 public class MemberSummaryDto {
-    private Long id;
+    private Long user_id;
     private String username;
 
     public static MemberSummaryDto createSummaryDto (StudyMember studyMember){
