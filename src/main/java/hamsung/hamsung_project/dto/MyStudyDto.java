@@ -22,7 +22,7 @@ public class MyStudyDto {
     private LocalDate startDate;
     @JsonProperty("end_date")
     private LocalDate endDate;
-    private Integer score;
+    private int score;
     private Long leader_id;
     @JsonProperty("my_role")
     private String myRole;
