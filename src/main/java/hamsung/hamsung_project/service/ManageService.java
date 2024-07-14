@@ -33,7 +33,7 @@ public class ManageService {
         Study target=studyRepository.findById(dto.getStudyId()).orElseThrow(()->new IllegalArgumentException("해당 스터디가 존재하지 않습니다"));
         int memNum=target.getMember_num();
 
-        Integer score=50-(absent+(memNum-homework))*10-late*5;
+        int score=50-(absent+(memNum-homework))*10-late*5;
         dto.setWeekScore(score);
         target.setScore(target.getScore()+score); //스터디 점수 업데이트
 

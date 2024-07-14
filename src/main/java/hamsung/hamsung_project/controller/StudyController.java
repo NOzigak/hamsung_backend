@@ -42,6 +42,8 @@ public class StudyController {
         }
     }
 
+
+
     @DeleteMapping("/study/{id}")
     public ResponseEntity<ResultDto<String>> deleteStudy(@PathVariable Long id){
         /*userId가져오도록 시큐리티 구현 후
