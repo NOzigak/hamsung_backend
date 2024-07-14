@@ -92,7 +92,9 @@ public class StudyService {
         List<MyStudyDto> studyDtoList = new ArrayList<>();
         for (Long studyId : studyIdList) {
             Study target = studyRepository.findById(studyId).orElse(null);
-            Recruit recruit = recruitsRepository.findByStudy_Id(studyId).orElse(null);
+
+            /*Recruit recruit = recruitsRepository.findByStudy_Id(studyId).orElse(null);
+
             if (target != null && recruit != null) {
                 studyDtoList.add(MyStudyDto.createMyStudyDto(target, userId, recruit));
             } else if (target == null) {
@@ -100,6 +102,13 @@ public class StudyService {
             } else {
                 throw new IllegalArgumentException("해당 스터디 id의 모집글이 존재하지 않습니다.");
             }
+            */
+             if(target!=null){
+                 studyDtoList.add(MyStudyDto.createMyStudyDto(target, userId));
+             }else {
+                 throw new IllegalArgumentException("해당 id의 스터디가 존재하지 않습니다.");
+             }
+
         }
         return studyDtoList;
     }
