@@ -17,7 +17,7 @@
 ## 팀원 소개
 |팀원|역할|
 |----|---|
-|강민서|ERD 설계<br>API 명세서 작성<br>|
+|강민서|ERD 설계<br>API 명세서 작성<br>스터디 모집글 API 개발<br>스터디 API 개발<br>스터디 멤버 API 개발|
 |남승현|ERD 설계<br>API 명세서 작성<br>스터디 API 개발<br>공지사항 API 개발<br>캘린더 일정관리 API 개발<br>멤버 리뷰 API 개발<br>주차별 스터디 관리 API 개발|
 |송우석|ERD 설계<br>API 명세서 작성<br>Spring Security JWT<br> 회원가입, 로그인 API 개발<br>댓글 API 개발<br>자동화 배포|
 
