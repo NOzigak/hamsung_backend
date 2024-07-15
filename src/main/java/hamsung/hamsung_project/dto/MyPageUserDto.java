@@ -22,7 +22,7 @@ public class MyPageUserDto {
     public MyPageUserDto(User user, Review review) {
         this.username = user.getUsername();
         this.email = user.getEmail();
-        this.point = user.getPoint();
+        this.point = review.getPoint();
         this.imaged_num = user.getImaged_num();
         this.badge = user.getBadge();
         this.reviewResponseDto = ReviewResponseDto.of(review);
