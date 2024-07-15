@@ -1,4 +1,5 @@
-![Uploading image.png…]()
+![image](https://github.com/user-attachments/assets/468a4450-ed60-4397-942a-6fcfb1ac7fd6)
+
 
 ![페이지](https://github.com/user-attachments/assets/c046f0a1-6a5d-4cca-93a6-368b41393c4a)
 
