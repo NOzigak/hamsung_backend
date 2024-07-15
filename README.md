@@ -3,8 +3,8 @@
 
 ## 링크
 
-[노션](https://educated-eggplant-a88.notion.site/a80b0466baa84367ab63f50015ab11b8)
-
+[노션](https://educated-eggplant-a88.notion.site/a80b0466baa84367ab63f50015ab11b8)   
+[함성](https://www.hamsungstudy.com/)
 
 <br>
 
