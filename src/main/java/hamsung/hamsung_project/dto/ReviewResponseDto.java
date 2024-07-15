@@ -24,7 +24,7 @@ public class ReviewResponseDto {
 
     private int absent;
 
-    private int point;
+//    private int point;
 
     public static ReviewResponseDto of(Review review){
         return ReviewResponseDto.builder()
@@ -36,7 +36,7 @@ public class ReviewResponseDto {
                 .slowAnswer(review.getSlowAnswer())
                 .passive(review.getSlowAnswer())
                 .absent(review.getAbsent())
-                .point(review.getPoint())
+//                .point(review.getPoint())
                 .build();
     }
 }
