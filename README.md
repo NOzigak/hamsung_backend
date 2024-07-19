@@ -1,11 +1,8 @@
-![image](https://github.com/user-attachments/assets/468a4450-ed60-4397-942a-6fcfb1ac7fd6)
+## 서비스 소개
 
+<br>
 
-
-## 링크
-
-[노션](https://educated-eggplant-a88.notion.site/a80b0466baa84367ab63f50015ab11b8)   
-[함성](https://www.hamsungstudy.com/)
+## 기능 설명
 
 <br>
 
