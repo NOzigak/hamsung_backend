@@ -7,6 +7,7 @@ import hamsung.hamsung_project.dto.StudyMemberDto;
 import hamsung.hamsung_project.entity.Study;
 import hamsung.hamsung_project.entity.StudyMember;
 import hamsung.hamsung_project.entity.User;
+import hamsung.hamsung_project.exception.InvalidDataException;
 import hamsung.hamsung_project.repository.ReviewRepository;
 import hamsung.hamsung_project.repository.StudyMemberRepository;
 import hamsung.hamsung_project.repository.StudyRepository;
@@ -55,7 +56,7 @@ public class StudyMemberService {
 
         //studyMemberRepository에서 study_id FK로 찾기->studyMemberList를 applyingSummaryList로 바꿔줘야.
         //아직 승인되지 않은 studyMember만 반환하도록 수정
-        List<StudyMember> StudyMemberList = studyMemberRepository.findByStudy_id(study_id);
+        List<StudyMember> StudyMemberList = studyMemberRepository.findByStudy_Id(study_id);
         List<ApplyingSummaryDto> summaryDtoList=new ArrayList<>();
         for (StudyMember studyMember : StudyMemberList) {
             if (studyMember.getApproval() ==false) {
@@ -99,10 +100,10 @@ public class StudyMemberService {
     //스터디 멤버 조회
     public List<MemberSummaryDto> findAllMembers(Long study_id){
         Study study = studyRepository.findById(study_id)
-                .orElseThrow(() -> new IllegalArgumentException("해당 스터디를 찾을 수 없어요."));
-        List<StudyMember> StudyMemberList = studyMemberRepository.findByStudy_id(study_id);
+                .orElseThrow(() -> new InvalidDataException("해당 스터디를 찾을 수 없어요."));
+        List<StudyMember> MemberList = studyMemberRepository.findByStudy_Id(study_id);
         List<MemberSummaryDto> summaryMemberList=new ArrayList<>();
-        for (StudyMember studyMember : StudyMemberList) {
+        for (StudyMember studyMember : MemberList) {
             if (studyMember.getApproval() ==true) {
                 summaryMemberList.add(MemberSummaryDto.createSummaryDto(studyMember));
             }

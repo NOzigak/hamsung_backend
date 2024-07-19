@@ -22,18 +22,26 @@ public class MyStudyDto {
     private LocalDate startDate;
     @JsonProperty("end_date")
     private LocalDate endDate;
-    private Integer score;
+    private int score;
     private Long leader_id;
     @JsonProperty("my_role")
     private String myRole;
     @JsonProperty("study_name")
     private String studyName;
 
+    /*
     public static MyStudyDto createMyStudyDto(Study study, Long userId, Recruit recruit){
         String myRole = study.getLeader_id().equals(userId) ? "leader" : "member";
         String studyName= recruit.getTitle();
 
         return new MyStudyDto(study.getId(),study.getCategory(),study.getPlace(),study.getMember_num(),
                 study.getStatus(),study.getStartDate(),study.getEndDate(),study.getScore(),study.getLeader_id(), myRole, studyName);
+    }
+    */
+    public static MyStudyDto createMyStudyDto(Study study, Long userId){
+        String myRole = study.getLeader_id().equals(userId) ? "leader" : "member";
+
+        return new MyStudyDto(study.getId(),study.getCategory(),study.getPlace(),study.getMember_num(),
+                study.getStatus(),study.getStartDate(),study.getEndDate(),study.getScore(),study.getLeader_id(), myRole, study.getTitle());
     }
 }
