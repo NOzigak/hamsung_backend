@@ -1,3 +1,4 @@
+![image](https://github.com/user-attachments/assets/7aaf54cc-dc29-408e-936d-dd0e96a834bf)
 
 
 ## 팀원 소개
