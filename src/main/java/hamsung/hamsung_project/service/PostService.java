@@ -3,6 +3,7 @@ package hamsung.hamsung_project.service;
 import hamsung.hamsung_project.dto.PostDto;
 import hamsung.hamsung_project.entity.Post;
 import hamsung.hamsung_project.entity.Study;
+import hamsung.hamsung_project.exception.InvalidDataException;
 import hamsung.hamsung_project.repository.PostRepository;
 import hamsung.hamsung_project.repository.StudyRepository;
 import jakarta.transaction.Transactional;
@@ -24,12 +25,12 @@ public class PostService {
     @Transactional
     public PostDto createPost(Long studyId, PostDto dto){
         //대상 스터디 있나 체크
-        Study target=studyRepository.findById(studyId).orElseThrow(()-> new IllegalArgumentException("공지사항 생성 실패! "+"대상 스터디가 없습니다."));
+        Study target=studyRepository.findById(studyId).orElseThrow(()-> new InvalidDataException("공지사항 생성 실패! "+"대상 스터디가 없습니다."));
         //공지사항 엔티티 생성
         if(dto.getType().equals("announcement")&&(dto.getTitle()==null||dto.getTitle().isEmpty()))
-            throw new IllegalArgumentException("공지사항은 제목이 필요합니다");
+            throw new InvalidDataException("공지사항은 제목이 필요합니다");
         if(dto.getType().equals("schedule")&&(dto.getDueDate()==null))
-            throw new IllegalArgumentException("일정 기록은 수행 날짜가 필요합니다");
+            throw new InvalidDataException("일정 기록은 수행 날짜가 필요합니다");
         Post post=Post.createPost(target,dto);
         //공지사항 엔티티 db에 저장
         postRepository.save(post);
@@ -39,8 +40,8 @@ public class PostService {
 
     @Transactional
     public PostDto update(Long postId, PostDto dto) {
-        Post target=postRepository.findById(postId).orElseThrow(()-> new IllegalArgumentException("수정 실패! 해당 id의 대상이 없습니다"));
-        Study study=studyRepository.findById(dto.getStudyId()).orElseThrow(()->new IllegalArgumentException("수정 실패! 해당 스터디가 없습니다"));
+        Post target=postRepository.findById(postId).orElseThrow(()-> new InvalidDataException("수정 실패! 해당 id의 대상이 없습니다"));
+        Study study=studyRepository.findById(dto.getStudyId()).orElseThrow(()->new InvalidDataException("수정 실패! 해당 스터디가 없습니다"));
         Post post=dto.toEntity(study);
         Post updated=postRepository.save(post);
         return PostDto.createPostDto(updated);
@@ -48,19 +49,19 @@ public class PostService {
 
     public PostDto showOnePost(Long postId) {
 
-        Post target=postRepository.findById(postId).orElseThrow(()->new IllegalArgumentException("조회 실패! 해당 id의 공지사항/일정이 존재하지 않습니다."));
+        Post target=postRepository.findById(postId).orElseThrow(()->new InvalidDataException("조회 실패! 해당 id의 공지사항/일정이 존재하지 않습니다."));
 
         return PostDto.createPostDto(target);
     }
 
     public boolean deletePost(Long postId) {
-        Post target=postRepository.findById(postId).orElseThrow(()->new IllegalArgumentException("삭제 실패! 해당 id의 공지사항/일정이 존재하지 않습니다."));
+        Post target=postRepository.findById(postId).orElseThrow(()->new InvalidDataException("삭제 실패! 해당 id의 공지사항/일정이 존재하지 않습니다."));
         postRepository.delete(target);
         return true;
     }
 
     public List<PostDto> showStudyPost(Long studyId, String type) {
-        studyRepository.findById(studyId).orElseThrow(() -> new IllegalArgumentException("해당 스터디가 존재하지 않습니다!"));
+        studyRepository.findById(studyId).orElseThrow(() -> new InvalidDataException("해당 스터디가 존재하지 않습니다!"));
         List<Post> studyPost = postRepository.findByStudy_Id(studyId);
         List<PostDto> announceList = new ArrayList<PostDto>();
         List<PostDto> scheduleList = new ArrayList<PostDto>();
@@ -94,7 +95,7 @@ public class PostService {
     }
 
     public List<PostDto> showAllPosts(Long studyId) {
-        studyRepository.findById(studyId).orElseThrow(() -> new IllegalArgumentException("해당 스터디가 존재하지 않습니다!"));
+        studyRepository.findById(studyId).orElseThrow(() -> new InvalidDataException("해당 스터디가 존재하지 않습니다!"));
         List<Post> postList=postRepository.findByStudy_Id(studyId);
 
         List<PostDto> postDtoList=new ArrayList<>();

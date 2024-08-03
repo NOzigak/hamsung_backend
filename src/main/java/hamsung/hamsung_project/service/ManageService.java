@@ -3,6 +3,7 @@ package hamsung.hamsung_project.service;
 import hamsung.hamsung_project.dto.ManageDto;
 import hamsung.hamsung_project.entity.Manage;
 import hamsung.hamsung_project.entity.Study;
+import hamsung.hamsung_project.exception.InvalidDataException;
 import hamsung.hamsung_project.repository.ManageRepository;
 import hamsung.hamsung_project.repository.StudyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,14 +24,14 @@ public class ManageService {
         Long studyId=dto.getStudyId();
         Optional<Manage> manage=manageRepository.findByStudy_IdAndWeek(studyId, week);
         if(manage.isPresent()){
-            throw new IllegalArgumentException("이미 해당 스터디 주차에 대한 점수가 기록되어있습니다!");
+            throw new InvalidDataException("이미 해당 스터디 주차에 대한 점수가 기록되어있습니다!");
         }
 
         int absent=dto.getAbsent();
         int late=dto.getLate();
         int homework=dto.getHomework();
 
-        Study target=studyRepository.findById(dto.getStudyId()).orElseThrow(()->new IllegalArgumentException("해당 스터디가 존재하지 않습니다"));
+        Study target=studyRepository.findById(dto.getStudyId()).orElseThrow(()->new InvalidDataException("해당 스터디가 존재하지 않습니다"));
         int memNum=target.getMember_num();
 
         int score=50-(absent+(memNum-homework))*10-late*5;
@@ -46,7 +47,7 @@ public class ManageService {
 
 
     public List<Manage> getAllWeekManage(Long studyId) {
-        studyRepository.findById(studyId).orElseThrow(()->new IllegalArgumentException("해당 id의 스터디가 존재하지 않습니다"));
+        studyRepository.findById(studyId).orElseThrow(()->new InvalidDataException("해당 id의 스터디가 존재하지 않습니다"));
         List<Manage> manageList=manageRepository.findByStudy_Id(studyId);
         return manageList;
     }
