@@ -1,18 +1,11 @@
+![image](https://github.com/user-attachments/assets/7aaf54cc-dc29-408e-936d-dd0e96a834bf)
 
-![페이지](https://github.com/user-attachments/assets/c046f0a1-6a5d-4cca-93a6-368b41393c4a)
-
-## 링크
-
-[노션](https://educated-eggplant-a88.notion.site/a80b0466baa84367ab63f50015ab11b8)
-
-
-<br>
 
 ## 팀원 소개
 |팀원|역할|
 |----|---|
 |강민서|ERD 설계<br>API 명세서 작성<br>스터디 모집글 API 개발<br>스터디 API 개발<br>스터디 멤버 API 개발|
-|남승현|ERD 설계<br>API 명세서 작성<br>스터디 API 개발<br>공지사항 API 개발<br>캘린더 일정관리 API 개발<br>멤버 리뷰 API 개발<br>주차별 스터디 관리 API 개발|
+|남승현|ERD 설계<br>API 명세서 작성<br>스터디 API 개발<br>공지사항 API 개발<br>캘린더 일정관리 API 개발<br>멤버 리뷰 API 개발<br>주차별 스터디 점수 및 관리 API 개발|
 |송우석|ERD 설계<br>API 명세서 작성<br>Spring Security JWT<br> 회원가입, 로그인 API 개발<br>댓글 API 개발<br>자동화 배포|
 
 <br>
@@ -34,6 +27,8 @@
   랭킹 시스템을 통해 스터디 참여 동기부여
 - 랭킹시스템   
   스터디 커뮤니티를 통해 여러 사용자가 자신의 관심 분야에 대한 정보를 얻을 수 있다.
+- 리뷰 기능  
+  스터디가 끝난 후 스터디 멤버들에 대한 평가를 진행한다. 이 평가는 누적되어 개인별로 점수와 상위 태그가 부여된다.
 - 스터디 관리 기능   
   모집과 동시에 만들어진 그룹 페이지를 통해 간편하게 스터디를 관리할 수 있다.
 
