@@ -1,8 +1,10 @@
 package hamsung.hamsung_project.domain.review.service;
 
+
 import hamsung.hamsung_project.domain.review.dto.ReviewDto;
 import hamsung.hamsung_project.domain.review.entity.Review;
 import hamsung.hamsung_project.domain.review.repository.ReviewRepository;
+import hamsung.hamsung_project.global.exception.InvalidDataException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,7 +21,7 @@ public class ReviewService {
     @Transactional
     public Boolean createReview(Long userId, ReviewDto reviewDto) {
         /* userId로 해당하는 review찾기 -> reviewDto에서 get한 애들값을했을 떄 true면 review 필드 +1해주기 -> reviewRepository에 갱신된 review 저장(save)*/
-        Review review=reviewRepository.findByUser_Id(userId).orElseThrow(()->new IllegalArgumentException("없는 유저입니다"));
+        Review review=reviewRepository.findByUser_Id(userId).orElseThrow(()->new InvalidDataException("없는 유저입니다"));
 
         Map<String, Consumer<Review>> updateActions=new HashMap<>();
         updateActions.put("noLate",r->r.setNoLate(r.getNoLate()+1));

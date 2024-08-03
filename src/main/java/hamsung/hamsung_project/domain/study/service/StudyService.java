@@ -1,5 +1,6 @@
 package hamsung.hamsung_project.domain.study.service;
 
+
 import hamsung.hamsung_project.domain.study.dto.MyStudyDto;
 import hamsung.hamsung_project.domain.recruit.dto.RecruitsRequestsDto;
 import hamsung.hamsung_project.domain.study.dto.StudyDto;
@@ -9,6 +10,7 @@ import hamsung.hamsung_project.domain.recruit.repository.RecruitsRepository;
 import hamsung.hamsung_project.domain.studymember.entity.StudyMember;
 import hamsung.hamsung_project.domain.studymember.repository.StudyMemberRepository;
 import hamsung.hamsung_project.domain.study.repository.StudyRepository;
+import hamsung.hamsung_project.global.exception.InvalidDataException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -67,15 +69,6 @@ public class StudyService {
         return false;
     }
 
-    /*
-    public List<StudyDto> showMyStudy(List<StudyMember> members) {
-        studyId를 담을 리스트 생성하기.
-        각 studyMember에 대해 getStudyId()해서 얻은 studyId들을 담기
-        중복 제거하기
-        리스트 내 모든 스터디 아이디에 대해  studyRepository.findById(리스트에 저장된 study id) 해서
-        객체 얻고 얘네들 모아 반환하기
-    }
-    */
 
     public List<MyStudyDto> showMyStudy(Long userId) {
         //user_id로 userId를 갖는 studyMember 객체 찾기
@@ -92,20 +85,10 @@ public class StudyService {
         for (Long studyId : studyIdList) {
             Study target = studyRepository.findById(studyId).orElse(null);
 
-            /*Recruit recruit = recruitsRepository.findByStudy_Id(studyId).orElse(null);
-
-            if (target != null && recruit != null) {
-                studyDtoList.add(MyStudyDto.createMyStudyDto(target, userId, recruit));
-            } else if (target == null) {
-                throw new IllegalArgumentException("해당 id의 스터디가 존재하지 않습니다.");
-            } else {
-                throw new IllegalArgumentException("해당 스터디 id의 모집글이 존재하지 않습니다.");
-            }
-            */
              if(target!=null){
                  studyDtoList.add(MyStudyDto.createMyStudyDto(target, userId));
              }else {
-                 throw new IllegalArgumentException("해당 id의 스터디가 존재하지 않습니다.");
+                 throw new InvalidDataException("해당 id의 스터디가 존재하지 않습니다.");
              }
 
         }
