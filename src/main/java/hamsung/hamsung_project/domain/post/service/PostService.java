@@ -6,6 +6,8 @@ import hamsung.hamsung_project.domain.post.entity.Post;
 import hamsung.hamsung_project.domain.study.entity.Study;
 import hamsung.hamsung_project.domain.post.repository.PostRepository;
 import hamsung.hamsung_project.domain.study.repository.StudyRepository;
+import hamsung.hamsung_project.domain.user.entity.User;
+import hamsung.hamsung_project.domain.user.repository.UserRepository;
 import hamsung.hamsung_project.global.exception.InvalidDataException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,16 +19,29 @@ import java.util.List;
 
 @Service
 public class PostService {
-    @Autowired
-    private PostRepository postRepository;
 
-    @Autowired
-    StudyRepository studyRepository;
+    private final PostRepository postRepository;
+    private final StudyRepository studyRepository;
+    private final UserRepository userRepository;
+
+    public PostService(PostRepository postRepository, StudyRepository studyRepository, UserRepository userRepository) {
+        this.postRepository = postRepository;
+        this.studyRepository = studyRepository;
+        this.userRepository = userRepository;
+    }
 
     @Transactional
-    public PostDto createPost(Long studyId, PostDto dto){
+    public PostDto createPost(Long studyId, PostDto dto, String username){
         //대상 스터디 있나 체크
         Study target=studyRepository.findById(studyId).orElseThrow(()-> new InvalidDataException("공지사항 생성 실패! "+"대상 스터디가 없습니다."));
+        if(!studyId.equals(dto.getStudyId())){
+            throw new InvalidDataException("url의 스터디 id와 데이터에 담긴 스터디 id 불일치");
+        }
+        //그룹장인지 체크
+        User leader=userRepository.findById(target.getLeader_id()).orElseThrow(()->new InvalidDataException("공지사항 생성 실패! 그룹장만 작성할 수 있습니다."));
+        if(!username.equals(leader.getUsername())){
+            throw new InvalidDataException("생성 실패! 그룹장만 등록 가능합니다");
+        }
         //공지사항 엔티티 생성
         if(dto.getType().equals("announcement")&&(dto.getTitle()==null||dto.getTitle().isEmpty()))
             throw new InvalidDataException("공지사항은 제목이 필요합니다");
@@ -40,9 +55,13 @@ public class PostService {
     }
 
     @Transactional
-    public PostDto update(Long postId, PostDto dto) {
+    public PostDto update(Long postId, PostDto dto, String username) {
         Post target=postRepository.findById(postId).orElseThrow(()-> new InvalidDataException("수정 실패! 해당 id의 대상이 없습니다"));
         Study study=studyRepository.findById(dto.getStudyId()).orElseThrow(()->new InvalidDataException("수정 실패! 해당 스터디가 없습니다"));
+        User writer=userRepository.findById(study.getLeader_id()).orElseThrow(()->new InvalidDataException("글 작성자를 찾을 수 없습니다"));
+        if(!username.equals(writer.getUsername())){
+            throw new InvalidDataException("공지사항 작성자만 수정 가능합니다");
+        }
         Post post=dto.toEntity(study);
         Post updated=postRepository.save(post);
         return PostDto.createPostDto(updated);
@@ -55,8 +74,12 @@ public class PostService {
         return PostDto.createPostDto(target);
     }
 
-    public boolean deletePost(Long postId) {
+    public boolean deletePost(Long postId, String username) {
         Post target=postRepository.findById(postId).orElseThrow(()->new InvalidDataException("삭제 실패! 해당 id의 공지사항/일정이 존재하지 않습니다."));
+        User writer=userRepository.findById(target.getStudy().getLeader_id()).orElseThrow(()->new InvalidDataException("삭제 실패! 글 작성자가 존재하지 않습니다"));
+        if(!username.equals(writer.getUsername())){
+            throw new InvalidDataException("글 작성자가 아닙니다!");
+        }
         postRepository.delete(target);
         return true;
     }

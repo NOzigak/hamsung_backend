@@ -10,7 +10,6 @@ import lombok.*;
 @NoArgsConstructor
 @ToString
 @Getter
-@Setter
 @Builder
 @Entity
 public class Manage {
