@@ -13,8 +13,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class ReviewController {
-    @Autowired
-    private ReviewService reviewService;
+
+    private final ReviewService reviewService;
+    public ReviewController(ReviewService reviewService) {
+        this.reviewService = reviewService;
+    }
 
     @PostMapping("/review/{userId}")
     public ResponseEntity<ResultDto<String>> createReview( @PathVariable Long userId, @RequestBody ReviewDto dto) {

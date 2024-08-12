@@ -10,9 +10,14 @@ import hamsung.hamsung_project.domain.recruit.repository.RecruitsRepository;
 import hamsung.hamsung_project.domain.studymember.entity.StudyMember;
 import hamsung.hamsung_project.domain.studymember.repository.StudyMemberRepository;
 import hamsung.hamsung_project.domain.study.repository.StudyRepository;
+import hamsung.hamsung_project.domain.user.entity.User;
+import hamsung.hamsung_project.domain.user.repository.UserRepository;
+import hamsung.hamsung_project.global.config.auth.CustomUserDetails;
 import hamsung.hamsung_project.global.exception.InvalidDataException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -22,13 +27,18 @@ import java.util.stream.Collectors;
 
 @Service
 public class StudyService {
-    @Autowired
-    StudyRepository studyRepository;
-    @Autowired
-    StudyMemberRepository studyMemberRepository;
-    @Autowired
-    RecruitsRepository recruitsRepository;
 
+    private final StudyRepository studyRepository;
+    private final StudyMemberRepository studyMemberRepository;
+    private final RecruitsRepository recruitsRepository;
+    private final UserRepository userRepository;
+
+    public StudyService(StudyRepository studyRepository, StudyMemberRepository studyMemberRepository, RecruitsRepository recruitsRepository, UserRepository userRepository) {
+        this.studyRepository = studyRepository;
+        this.studyMemberRepository = studyMemberRepository;
+        this.recruitsRepository = recruitsRepository;
+        this.userRepository = userRepository;
+    }
 
     //스터디 생성
     @Transactional
@@ -59,6 +69,8 @@ public class StudyService {
         return studyRepository.findById(id).orElse(null);
     }
 
+
+
     public boolean deleteStudy(Long id) {
         Study target = studyRepository.findById(id).orElse(null);
         if (target != null) {
@@ -70,9 +82,10 @@ public class StudyService {
     }
 
 
-    public List<MyStudyDto> showMyStudy(Long userId) {
+    public List<MyStudyDto> showMyStudy(String username) {
+        User me=userRepository.findByUsername(username);
         //user_id로 userId를 갖는 studyMember 객체 찾기
-        List<StudyMember> myList = studyMemberRepository.findByUsers_Id(userId);
+        List<StudyMember> myList = studyMemberRepository.findByUsers_Id(me.getId());
 
         //찾은 studyMember객체의 studyId를 갖는 study 찭기
         List<Long> studyIdList = new ArrayList<>();
@@ -86,7 +99,7 @@ public class StudyService {
             Study target = studyRepository.findById(studyId).orElse(null);
 
              if(target!=null){
-                 studyDtoList.add(MyStudyDto.createMyStudyDto(target, userId));
+                 studyDtoList.add(MyStudyDto.createMyStudyDto(target, me.getId()));
              }else {
                  throw new InvalidDataException("해당 id의 스터디가 존재하지 않습니다.");
              }
@@ -94,6 +107,7 @@ public class StudyService {
         }
         return studyDtoList;
     }
+
 
     //스터디 랭킹(스터디 전체 조회)
     @Transactional

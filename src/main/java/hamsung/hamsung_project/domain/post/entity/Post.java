@@ -15,7 +15,6 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @ToString
 @Getter
-@Setter
 @Entity
 public class Post {
     @Id

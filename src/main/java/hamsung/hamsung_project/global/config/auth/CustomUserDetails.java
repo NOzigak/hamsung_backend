@@ -1,13 +1,15 @@
 package hamsung.hamsung_project.global.config.auth;
 
 import hamsung.hamsung_project.domain.user.entity.User;
+import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class CustomUserDetails  implements UserDetails {
+@Data
+public class CustomUserDetails implements UserDetails {
 
     private final User userEntity;
 

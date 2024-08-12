@@ -15,10 +15,14 @@ import java.util.Optional;
 
 @Service
 public class ManageService {
-    @Autowired
-    private ManageRepository manageRepository;
-    @Autowired
-    private StudyRepository studyRepository;
+
+    private final ManageRepository manageRepository;
+    private final StudyRepository studyRepository;
+
+    public ManageService(ManageRepository manageRepository, StudyRepository studyRepository){
+        this.manageRepository = manageRepository;
+        this.studyRepository = studyRepository;
+    }
 
     public ManageDto createWeekScore(ManageDto dto){
         int week=dto.getWeek();

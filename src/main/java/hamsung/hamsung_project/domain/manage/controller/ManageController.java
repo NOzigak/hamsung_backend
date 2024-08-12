@@ -14,8 +14,10 @@ import java.util.List;
 @RestController
 public class ManageController {
 
-    @Autowired
-    private ManageService manageService;
+    private final ManageService manageService;
+    public ManageController(ManageService manageService) {
+        this.manageService = manageService;
+    }
 
     @PostMapping("study/{studyId}/manage")
     public ResponseEntity<?> createWeekScore(@PathVariable Long studyId, @RequestBody ManageDto dto){
