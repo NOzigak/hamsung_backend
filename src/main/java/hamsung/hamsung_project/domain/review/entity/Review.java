@@ -40,7 +40,7 @@ public class Review {
     @Column(name="absent", nullable=false)
     private int absent;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="user_id")
     @JsonBackReference //순환참조 방지(자식쪽)
     private User user;
