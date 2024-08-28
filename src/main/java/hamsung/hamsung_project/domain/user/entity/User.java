@@ -42,7 +42,7 @@ public class User {
                 .imaged_num(imaged_num).role(role).badge(badge).point(point).build();
     }
 
-    @OneToOne(mappedBy="user")
+    @OneToOne(mappedBy="user", fetch = FetchType.LAZY)
     @JsonManagedReference //순환참조 방지 (부모쪽)
     private Review review;
 
